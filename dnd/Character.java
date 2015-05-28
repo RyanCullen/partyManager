@@ -5,7 +5,7 @@ import java.util.Vector;
 public class Character
 {
 	private int level, maxHP, currentHP, ac, fort, ref, will, speed, exp, gold, initiative, maxSurges, currentSurges;
-	private String name;
+	private String name, notes;
 	private ArrayList<Item> items = new ArrayList<String>();
 	
 	public Character(String name, int level, int exp; int hp, int surges, int ac, int fort, int ref, int will, int speed, int gold)
@@ -23,9 +23,10 @@ public class Character
 		this.will = will;
 		this.speed = speed;
 		this.gold = gold;
+		this.notes = "";
 	}
 	
-	public Character(String name, int level, int exp; int maxHp, int currHp, int maxSurges, int currSurges, int ac, int fort, int ref, int will, int speed, int gold, String itemString)
+	public Character(String name, int level, int exp; int maxHp, int currHp, int maxSurges, int currSurges, int ac, int fort, int ref, int will, int speed, int gold, String notes, String itemString)
 	{
 		this.name = name;
 		this.level = level;
@@ -40,6 +41,7 @@ public class Character
 		this.will = will;
 		this.speed = speed;
 		this.gold = gold;
+		this.notes = notes;
 		loadItems(itemString);
 	}
 	
@@ -187,7 +189,7 @@ public class Character
 	}
 
 	public String getRecordString() {
-		return name + "~" + String.valueOf(level) + "~" + String.valueOf(exp) + "~" + String.valueOf(maxHP) + "~" + String.valueOf(currentHP) + "~" + String.valueOf(ac) + "~" + String.valueOf(fort) + "~" + String.valueOf(ref) + "~" + String.valueOf(will) + "~" + String.valueOf(gold) + "~" + stringifyItems();
+		return name + "~" + String.valueOf(level) + "~" + String.valueOf(exp) + "~" + String.valueOf(maxHP) + "~" + String.valueOf(currentHP) + "~" + String.valueOf(ac) + "~" + String.valueOf(fort) + "~" + String.valueOf(ref) + "~" + String.valueOf(will) + "~" + String.valueOf(gold) + "~" + notes + "~" + stringifyItems();
 	}
 	
 	public String stringifyItems() {
