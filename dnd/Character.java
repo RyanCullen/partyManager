@@ -189,6 +189,14 @@ public class Character
 		this.name = name;
 	}
 
+	public String getNotes() {
+		return notes;
+	}
+	
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+	
 	public String getRecordString() {
 		return name + "~" + String.valueOf(level) + "~" + String.valueOf(exp) + "~" + String.valueOf(maxHP) + "~" + String.valueOf(currentHP) + "~" + String.valueOf(ac) + "~" + String.valueOf(fort) + "~" + String.valueOf(ref) + "~" + String.valueOf(will) + "~" + String.valueOf(gold) + "~" + notes + "~" + stringifyItems();
 	}
