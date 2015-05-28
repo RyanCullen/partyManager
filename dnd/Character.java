@@ -4,22 +4,51 @@ import java.util.Vector;
 
 public class Character
 {
-	private int level, maxHP, currentHP, ac, fort, ref, will, speed, exp, gold, initiative, healingSurges;
+	private int level, maxHP, currentHP, ac, fort, ref, will, speed, exp, gold, initiative, maxSurges, currentSurges;
 	private String name;
 	private ArrayList<Item> items = new ArrayList<String>();
 	
-	public Character(String name, int level, int hp, int surges, int ac, int fort, int ref, int will, int speed)
+	public Character(String name, int level, int exp; int hp, int surges, int ac, int fort, int ref, int will, int speed, int gold)
 	{
 		this.name = name;
 		this.level = level;
+		this.exp = exp;
 		this.maxHP = hp;
 		this.currentHP = hp;
-		this.healingSurges = surges;
+		this.maxSurges = surges;
+		this.currentSurges = surges;
 		this.ac = ac;
 		this.fort = fort;
 		this.ref = ref;
 		this.will = will;
 		this.speed = speed;
+		this.gold = gold;
+	}
+	
+	public Character(String name, int level, int exp; int maxHp, int currHp, int maxSurges, int currSurges, int ac, int fort, int ref, int will, int speed, int gold, String itemString)
+	{
+		this.name = name;
+		this.level = level;
+		this.exp = exp;
+		this.maxHP = maxHp;
+		this.currentHP = currHp;
+		this.maxSurges = maxSurges;
+		this.currentSurges = currSurges;
+		this.ac = ac;
+		this.fort = fort;
+		this.ref = ref;
+		this.will = will;
+		this.speed = speed;
+		this.gold = gold;
+		loadItems(itemString);
+	}
+	
+	public void loadItems(String itemString) {
+		String[] itemPairs = itemString.split("|");
+		for (String pair : itemPairs) {
+			String[] temp = pair.split(":");
+			items.add(temp[0], temp[1]);
+		}
 	}
 	
 	public void addItem(String name, String desc)
@@ -33,9 +62,9 @@ public class Character
 
 	public boolean removeItem(String itemName)
 	{
-		for (int i = 0; i < items.size(); i++) {
-			if (items.get(i).getName.equalsIgnoreCase(itemName)) {
-				items.remove(i);
+		for (Item item : items) {
+			if (item.getName.equalsIgnoreCase(itemName)) {
+				items.remove(item);
 				return true;
 			}
 		}
@@ -157,4 +186,15 @@ public class Character
 		this.name = name;
 	}
 
+	public String getRecordString() {
+		return name + "~" + String.valueOf(level) + "~" + String.valueOf(exp) + "~" + String.valueOf(maxHP) + "~" + String.valueOf(currentHP) + "~" + String.valueOf(ac) + "~" + String.valueOf(fort) + "~" + String.valueOf(ref) + "~" + String.valueOf(will) + "~" + String.valueOf(gold) + "~" + stringifyItems();
+	}
+	
+	public String stringifyItems() {
+		String temp = "";
+		for (Item item : items) {
+			temp += item.toString() + "|";
+		}
+		return temp.substring(0, temp.length() - 1)
+	}
 }

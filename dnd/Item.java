@@ -30,4 +30,7 @@ public class Item
 		this.description = description;
 	}
 	
+	public String toString() {
+		return name + ":" + description;
+	}
 }
