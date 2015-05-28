@@ -6,8 +6,7 @@ public class Character
 {
 	private int level, maxHP, currentHP, ac, fort, ref, will, speed, exp, gold, initiative, healingSurges;
 	private String name;
-	private Vector<Item> items;
-
+	private ArrayList<Item> items = new ArrayList<String>();
 	
 	public Character(String name, int level, int hp, int surges, int ac, int fort, int ref, int will, int speed)
 	{
@@ -21,26 +20,26 @@ public class Character
 		this.ref = ref;
 		this.will = will;
 		this.speed = speed;
-		items = new Vector<Item>();
 	}
 	
 	public void addItem(String name, String desc)
 	{
-		items.addElement(new Item(name, desc));
+		items.add(new Item(name, desc));
 	}
 	
-	public Vector getItems()
-	{
-		return this.items;
+	public ArrayList getItemList() {
+		return items;
 	}
 
-	public void removeItem(String itemName)
+	public boolean removeItem(String itemName)
 	{
-		for (int i = 0; i < items.size(); i++)
-		{
-			if (items.elementAt(i).getName().equalsIgnoreCase(itemName))
-				items.removeElementAt(i);
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i).getName.equalsIgnoreCase(itemName)) {
+				items.remove(i);
+				return true;
+			}
 		}
+		return false;
 	}
 	
 	public void changeGold(int change)
