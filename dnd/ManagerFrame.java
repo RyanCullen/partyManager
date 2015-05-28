@@ -22,7 +22,7 @@ public class ManagerFrame extends JFrame implements ActionListener
 	private JMenu fileMenu;
 	private JMenuItem loadMenuItem;
 	private JMenuItem exitMenuItem;
-	public String dataFileName;
+	public static String dataFileName;
 	private CharacterList charList;
 	private JMenuItem newMenuItem;
 
