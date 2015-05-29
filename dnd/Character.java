@@ -7,14 +7,14 @@ public class Character
 	private int level, maxHP, currentHP, ac, fort, ref, will, speed, exp, gold, initiative, maxSurges, currentSurges;
 	private String name, notes;
 	private ArrayList<Item> items = new ArrayList<Item>();
-	private static final int[] EXP_TABLE = {-1, 0, 1000, 2250, 3750, 5500, 7500, 10000, 13000, 16500, 20500, 26000, 32000, 39000, 47000, 57000, 69000, 83000, 99000, 119000, 143000, 175000, 210000, 255000, 310000, 375000, 450000, 550000, 675000, 825000, 1000000};
+	private static final int[] EXP_TABLE = {-1, 0, 1000, 2250, 3750, 5500, 7500, 10000, 13000, 16500, 20500, 26000, 32000, 39000, 47000, 57000, 69000, 83000, 99000, 119000, 143000, 175000, 210000, 255000, 310000, 375000, 450000, 550000, 675000, 825000, 1000000, Integer.MAX_VALUE};
 	
 	//Constructor for new characters
-	public Character(String name, int level, int exp, int hp, int surges, int ac, int fort, int ref, int will, int speed, int gold)
+	public Character(String name, int exp, int hp, int surges, int ac, int fort, int ref, int will, int speed, int gold)
 	{
 		this.name = name;
-		this.level = level;
 		this.exp = exp;
+		this.level = calculateLevel();
 		this.maxHP = hp;
 		this.currentHP = hp;
 		this.maxSurges = surges;
@@ -29,11 +29,11 @@ public class Character
 	}
 	
 	//Constructor for loading a character
-	public Character(String name, int level, int exp, int maxHp, int currHp, int maxSurges, int currSurges, int ac, int fort, int ref, int will, int speed, int gold, String notes, String itemString)
+	public Character(String name, int exp, int maxHp, int currHp, int maxSurges, int currSurges, int ac, int fort, int ref, int will, int speed, int gold, String notes, String itemString)
 	{
 		this.name = name;
-		this.level = level;
 		this.exp = exp;
+		this.level = calculateLevel();
 		this.maxHP = maxHp;
 		this.currentHP = currHp;
 		this.maxSurges = maxSurges;
@@ -46,6 +46,14 @@ public class Character
 		this.gold = gold;
 		this.notes = notes;
 		loadItems(itemString);
+	}
+	
+	private int calculateLevel() {
+		for (int i = 1; i < EXP_TABLE.length; i++) {
+			if (exp >= EXP_TABLE[i-1] && exp < EXP_TABLE[i])
+				return i-1;
+		}
+		return -1;
 	}
 	
 	public void loadItems(String itemString) {
@@ -84,6 +92,7 @@ public class Character
 	public void addExp(int exp)
 	{
 		this.exp += exp;
+		this.level = calculateLevel();
 	}
 		
 	public void changeHP(int change)
