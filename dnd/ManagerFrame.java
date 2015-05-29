@@ -151,6 +151,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 				if (name != null)
 					charList.deleteCharacter(name);
 			}
+			else
+				JOptionPane.showMessageDialog(this, "Party is empty. Nothing to delete.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
