@@ -2,9 +2,15 @@ package dnd;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class AddItemFrame extends JFrame implements ActionListener
@@ -42,7 +48,7 @@ public class AddItemFrame extends JFrame implements ActionListener
 	/**
 	 * Create the frame.
 	 */
-	public AddItemFrame(Character character)
+	public AddItemFrame()
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -61,7 +67,7 @@ public class AddItemFrame extends JFrame implements ActionListener
 		btnAdd.addActionListener(this);
 		btnCancel.addActionListener(this);
 		
-		this.currentChar = character;
+		//this.currentChar = character;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -72,7 +78,7 @@ public class AddItemFrame extends JFrame implements ActionListener
 			}
 		}
 		else
-			if (e.getSource == btnCancel)
+			if (e.getSource() == btnCancel)
 				this.dispose();
 	}
 }

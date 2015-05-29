@@ -1,16 +1,16 @@
 package dnd;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Character
 {
 	private int level, maxHP, currentHP, ac, fort, ref, will, speed, exp, gold, initiative, maxSurges, currentSurges;
 	private String name, notes;
-	private ArrayList<Item> items = new ArrayList<String>();
-	private static final int[] EXP_TABLE = [-1, 0, 1000, 2250, 3750, 5500, 7500, 10000, 13000, 16500, 20500, 26000, 32000, 39000, 47000, 57000, 69000, 83000, 99000, 119000, 143000, 175000, 210000, 255000, 310000, 375000, 450000, 550000, 675000, 825000, 1000000];
+	private ArrayList<Item> items = new ArrayList<Item>();
+	private static final int[] EXP_TABLE = {-1, 0, 1000, 2250, 3750, 5500, 7500, 10000, 13000, 16500, 20500, 26000, 32000, 39000, 47000, 57000, 69000, 83000, 99000, 119000, 143000, 175000, 210000, 255000, 310000, 375000, 450000, 550000, 675000, 825000, 1000000};
 	
 	//Constructor for new characters
-	public Character(String name, int level, int exp; int hp, int surges, int ac, int fort, int ref, int will, int speed, int gold)
+	public Character(String name, int level, int exp, int hp, int surges, int ac, int fort, int ref, int will, int speed, int gold)
 	{
 		this.name = name;
 		this.level = level;
@@ -29,7 +29,7 @@ public class Character
 	}
 	
 	//Constructor for loading a character
-	public Character(String name, int level, int exp; int maxHp, int currHp, int maxSurges, int currSurges, int ac, int fort, int ref, int will, int speed, int gold, String notes, String itemString)
+	public Character(String name, int level, int exp, int maxHp, int currHp, int maxSurges, int currSurges, int ac, int fort, int ref, int will, int speed, int gold, String notes, String itemString)
 	{
 		this.name = name;
 		this.level = level;
@@ -52,7 +52,7 @@ public class Character
 		String[] itemPairs = itemString.split("|");
 		for (String pair : itemPairs) {
 			String[] temp = pair.split(":");
-			items.add(temp[0], temp[1]);
+			items.add(new Item(temp[0], temp[1]));
 		}
 	}
 	
@@ -68,7 +68,7 @@ public class Character
 	public boolean removeItem(String itemName)
 	{
 		for (Item item : items) {
-			if (item.getName.equalsIgnoreCase(itemName)) {
+			if (item.getName().equalsIgnoreCase(itemName)) {
 				items.remove(item);
 				return true;
 			}
@@ -208,6 +208,6 @@ public class Character
 		for (Item item : items) {
 			temp += item.toString() + "|";
 		}
-		return temp.substring(0, temp.length() - 1)
+		return temp.substring(0, temp.length() - 1);
 	}
 }

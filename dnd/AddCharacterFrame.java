@@ -2,9 +2,15 @@ package dnd;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class AddCharacterFrame extends JFrame implements ActionListener
@@ -98,10 +104,16 @@ public class AddCharacterFrame extends JFrame implements ActionListener
 	
 	public boolean verifyFields() {
 		String errorString = "";
-		if (charList.contains(fldName.getValue())
-			errorString += "Name " + fldName.getValue() + " is already taken.\n";
-		if (fldName.getValue().isEmpty())
+		if (charList.takenNames.contains(fldName.getText()));
+			errorString += "Name " + fldName.getText() + " is already taken.\n";
+		if (fldName.getText().isEmpty())
 			errorString += "Name is a required field.\n";
 		
+		if (!errorString.isEmpty()) {
+			JOptionPane.showMessageDialog(this, errorString, "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		else
+			return true;
 	}
 }

@@ -1,5 +1,14 @@
 package dnd;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
 public class CharacterList
 {
 	private static final int NUM_TOKENS = 15;
@@ -29,7 +38,7 @@ public class CharacterList
 		try {
 			Scanner in = new Scanner(new File(filename));
 			while (in.hasNext()) {
-				String[] tokens = in.nextLine().split("~")
+				String[] tokens = in.nextLine().split("~");
 				if (tokens.length != NUM_TOKENS)
 					continue;
 				if (takenNames.contains(tokens[0])) {
@@ -37,7 +46,7 @@ public class CharacterList
 					continue;
 				}
 				else {
-					addCharacter(new Character(tokens[0], Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]), Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]), Integer.parseInt(tokens[7]), Integer.parseInt(tokens[8]), Integer.parseInt(tokens[9]), Integer.parseInt(tokens[10]), Integer.parseInt(tokens[11]), Integer.parseInt(tokens[12]), tokens[13], tokens[14]);
+					addCharacter(new Character(tokens[0], Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]), Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]), Integer.parseInt(tokens[7]), Integer.parseInt(tokens[8]), Integer.parseInt(tokens[9]), Integer.parseInt(tokens[10]), Integer.parseInt(tokens[11]), Integer.parseInt(tokens[12]), tokens[13], tokens[14]));
 					takenNames.add(tokens[0]);
 				}
 			}
@@ -55,7 +64,7 @@ public class CharacterList
 			}
 			out.close();
 		}
-		catch (IOException) {
+		catch (IOException e) {
 			
 		}
 	}
@@ -65,6 +74,7 @@ public class CharacterList
 			if (aChar.getName().equalsIgnoreCase(name))
 				return aChar;
 		}
+		return null;
 	}
 	
 	public boolean deleteCharacter(String name) {
