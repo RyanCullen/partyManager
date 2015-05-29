@@ -17,8 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class AddItemFrame extends JFrame implements ActionListener
-{
+public class AddItemFrame extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private Character currentChar;
@@ -33,19 +32,14 @@ public class AddItemFrame extends JFrame implements ActionListener
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args)
-	{
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				try
-				{
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
 					AddItemFrame frame = new AddItemFrame(null);
 					frame.setVisible(true);
 				}
-				catch (Exception e)
-				{
+				catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -55,8 +49,7 @@ public class AddItemFrame extends JFrame implements ActionListener
 	/**
 	 * Create the frame.
 	 */
-	public AddItemFrame(Character character)
-	{
+	public AddItemFrame(Character character) {
 		setTitle("Add Item");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -64,19 +57,21 @@ public class AddItemFrame extends JFrame implements ActionListener
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0,
+				Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 1.0, 0.0,
+				Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
-		
+
 		lblName = new JLabel("Name:");
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
 		gbc_lblName.insets = new Insets(0, 0, 5, 5);
 		gbc_lblName.gridx = 0;
 		gbc_lblName.gridy = 0;
 		contentPane.add(lblName, gbc_lblName);
-		
+
 		fldName = new JTextField();
 		GridBagConstraints gbc_fldName = new GridBagConstraints();
 		gbc_fldName.insets = new Insets(0, 0, 5, 0);
@@ -85,7 +80,7 @@ public class AddItemFrame extends JFrame implements ActionListener
 		gbc_fldName.gridy = 0;
 		contentPane.add(fldName, gbc_fldName);
 		fldName.setColumns(10);
-		
+
 		lblDesc = new JLabel("Description:");
 		GridBagConstraints gbc_lblDesc = new GridBagConstraints();
 		gbc_lblDesc.anchor = GridBagConstraints.NORTH;
@@ -93,7 +88,7 @@ public class AddItemFrame extends JFrame implements ActionListener
 		gbc_lblDesc.gridx = 0;
 		gbc_lblDesc.gridy = 1;
 		contentPane.add(lblDesc, gbc_lblDesc);
-		
+
 		areaDesc = new JTextArea();
 		GridBagConstraints gbc_areaDesc = new GridBagConstraints();
 		gbc_areaDesc.insets = new Insets(0, 0, 5, 0);
@@ -102,7 +97,7 @@ public class AddItemFrame extends JFrame implements ActionListener
 		gbc_areaDesc.gridy = 1;
 		areaDesc.setBorder(BorderFactory.createEtchedBorder());
 		contentPane.add(areaDesc, gbc_areaDesc);
-		
+
 		btnPanel = new JPanel();
 		GridBagConstraints gbc_btnPanel = new GridBagConstraints();
 		gbc_btnPanel.anchor = GridBagConstraints.SOUTH;
@@ -110,22 +105,19 @@ public class AddItemFrame extends JFrame implements ActionListener
 		gbc_btnPanel.gridx = 1;
 		gbc_btnPanel.gridy = 2;
 		contentPane.add(btnPanel, gbc_btnPanel);
-		
+
 		btnAdd = new JButton("Add Item");
 		btnPanel.add(btnAdd);
-		
+
 		btnCancel = new JButton("Cancel");
 		btnPanel.add(btnCancel);
-		
-		
+
 		btnAdd.addActionListener(this);
 		btnCancel.addActionListener(this);
-	
+
 		this.currentChar = character;
 	}
-	
-	
-	
+
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnAdd) {
 			if (!fldName.getText().isEmpty()) {
@@ -133,10 +125,10 @@ public class AddItemFrame extends JFrame implements ActionListener
 				this.dispose();
 			}
 			else
-				JOptionPane.showMessageDialog(this, "Name field required.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Name field required.",
+						"Error", JOptionPane.ERROR_MESSAGE);
 		}
-		else
-			if (e.getSource() == btnCancel)
-				this.dispose();
+		else if (e.getSource() == btnCancel)
+			this.dispose();
 	}
 }

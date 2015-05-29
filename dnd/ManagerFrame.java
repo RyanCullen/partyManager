@@ -25,7 +25,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	private JMenuItem loadMenuItem;
 	private JMenuItem exitMenuItem;
 	public static String dataFileName;
-	private CharacterList charList;
+	public static CharacterList charList;
 	private JMenuItem newMenuItem;
 	private JMenu partyMenu;
 	private JMenuItem addCharacterMenuItem;
@@ -140,7 +140,17 @@ public class ManagerFrame extends JFrame implements ActionListener {
 			frame.setVisible(true);
 		}
 		else if (arg0.getSource() == deleteCharacterMenuItem) {
-
+			if (charList.getNumChars() != 0) {
+				Object[] options = new Object[charList.getNumChars()];
+				int i = 0;
+				for (Character character : charList.getList())
+					options[i++] = character.toString();
+				String name = (String) JOptionPane.showInputDialog(this,
+						"Choose character to delete.", "Delete Character",
+						JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+				if (name != null)
+					charList.deleteCharacter(name);
+			}
 		}
 
 	}
