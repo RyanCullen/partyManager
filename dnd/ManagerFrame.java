@@ -4,9 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -17,7 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class ManagerFrame extends JFrame implements ActionListener {
+public class ManagerFrame extends JFrame implements ActionListener,
+		WindowListener {
 
 	private JPanel contentPane;
 	private JMenuBar menuBar;
@@ -30,6 +34,8 @@ public class ManagerFrame extends JFrame implements ActionListener {
 	private JMenu partyMenu;
 	private JMenuItem addCharacterMenuItem;
 	private JMenuItem deleteCharacterMenuItem;
+	private static JPanel charPanel;
+	private static ManagerFrame frame;
 
 	/**
 	 * Launch the application.
@@ -38,7 +44,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ManagerFrame frame = new ManagerFrame();
+					frame = new ManagerFrame();
 					frame.setVisible(true);
 				}
 				catch (Exception e) {
@@ -55,6 +61,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		setTitle("D&D Party Manager");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setResizable(false);
 
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -84,7 +91,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setLayout(new BorderLayout());
 		setContentPane(contentPane);
 
 		loadMenuItem.addActionListener(this);
@@ -92,6 +99,11 @@ public class ManagerFrame extends JFrame implements ActionListener {
 		newMenuItem.addActionListener(this);
 		addCharacterMenuItem.addActionListener(this);
 		deleteCharacterMenuItem.addActionListener(this);
+		
+		charPanel = new JPanel();
+		charPanel.setLayout(new BoxLayout(charPanel, BoxLayout.Y_AXIS));
+		contentPane.add(charPanel, BorderLayout.CENTER);
+		
 	}
 
 	@Override
@@ -107,6 +119,7 @@ public class ManagerFrame extends JFrame implements ActionListener {
 				dataFileName = chooser.getSelectedFile().toString();
 				charList = new CharacterList(dataFileName);
 				partyMenu.setEnabled(true);
+				drawCharPanels();
 			}
 		}
 		else if (arg0.getSource() == exitMenuItem) {
@@ -149,11 +162,58 @@ public class ManagerFrame extends JFrame implements ActionListener {
 						"Choose character to delete.", "Delete Character",
 						JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 				if (name != null)
+				{
 					charList.deleteCharacter(name);
+					ManagerFrame.drawCharPanels();
+				}
 			}
 			else
-				JOptionPane.showMessageDialog(this, "Party is empty. Nothing to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this,
+						"Party is empty. Nothing to delete.", "Error",
+						JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	public static void drawCharPanels() {
+		charPanel.removeAll();
+		for (Character character : charList.getList()) {
+			charPanel.add(new CharacterPanel(character));
+		}
+		frame.pack();
+	}
+
+	@Override
+	public void windowActivated(WindowEvent arg0) {
+
+	}
+
+	@Override
+	public void windowClosed(WindowEvent arg0) {
+
+	}
+
+	@Override
+	public void windowClosing(WindowEvent arg0) {
+		charList.save();
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent arg0) {
+
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent arg0) {
+
+	}
+
+	@Override
+	public void windowIconified(WindowEvent arg0) {
+
+	}
+
+	@Override
+	public void windowOpened(WindowEvent arg0) {
 
 	}
 

@@ -75,7 +75,7 @@ public class Character {
 		items.add(new Item(name, desc));
 	}
 
-	public ArrayList getItemList() {
+	public ArrayList<Item> getItemList() {
 		return items;
 	}
 
@@ -91,6 +91,22 @@ public class Character {
 
 	public void changeGold(int change) {
 		this.gold += change;
+	}
+
+	public int getMaxSurges() {
+		return maxSurges;
+	}
+
+	public void setMaxSurges(int maxSurges) {
+		this.maxSurges = maxSurges;
+	}
+
+	public int getCurrentSurges() {
+		return currentSurges;
+	}
+
+	public void setCurrentSurges(int currentSurges) {
+		this.currentSurges = currentSurges;
 	}
 
 	public void addExp(int exp) {
@@ -116,6 +132,14 @@ public class Character {
 
 	public void setMaxHP(int maxHP) {
 		this.maxHP = maxHP;
+	}
+
+	public int getCurrentHP() {
+		return currentHP;
+	}
+
+	public void setCurrentHP(int currentHp) {
+		this.currentHP = currentHp;
 	}
 
 	public int getAc() {

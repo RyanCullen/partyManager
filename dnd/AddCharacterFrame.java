@@ -159,6 +159,7 @@ public class AddCharacterFrame extends JFrame implements ActionListener {
 		if (e.getSource() == btnAdd) {
 			if (verifyFields()) {
 				addCharacter();
+				ManagerFrame.drawCharPanels();
 				this.dispose();
 			}
 		}

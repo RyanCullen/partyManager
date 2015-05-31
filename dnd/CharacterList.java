@@ -56,6 +56,7 @@ public class CharacterList {
 					takenNames.add(tokens[0]);
 				}
 			}
+			in.close();
 		}
 		catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "File not found.", "Error",
