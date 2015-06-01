@@ -29,13 +29,13 @@ public class Character {
 		this.will = will;
 		this.speed = speed;
 		this.gold = gold;
-		this.notes = "Notes";
+		this.notes = "";
 	}
 
 	// Constructor for loading a character
 	public Character(String name, int exp, int maxHp, int currHp,
 			int maxSurges, int currSurges, int ac, int fort, int ref, int will,
-			int speed, int gold, String notes, String itemString) {
+			int speed, String notes, String itemString, int gold) {
 		this.name = name;
 		this.exp = exp;
 		this.level = calculateLevel();
@@ -48,9 +48,9 @@ public class Character {
 		this.ref = ref;
 		this.will = will;
 		this.speed = speed;
-		this.gold = gold;
 		this.notes = notes;
 		loadItems(itemString);
+		this.gold = gold;
 	}
 
 	private int calculateLevel() {
@@ -62,17 +62,17 @@ public class Character {
 	}
 
 	public void loadItems(String itemString) {
-		if (!itemString.equals("0")) {
-			String[] itemPairs = itemString.split("|");
+		if (!itemString.isEmpty()) {
+			String[] itemPairs = itemString.split("\\|");
 			for (String pair : itemPairs) {
-				String[] temp = pair.split(":");
-				items.add(new Item(temp[0], temp[1]));
+				String[] temp = pair.split("`");
+				items.add(new Item(temp[0], temp[1], Integer.parseInt(temp[2])));
 			}
 		}
 	}
 
-	public void addItem(String name, String desc) {
-		items.add(new Item(name, desc));
+	public void addItem(String name, String desc, int value) {
+		items.add(new Item(name, desc, value));
 	}
 
 	public ArrayList<Item> getItemList() {
@@ -221,8 +221,8 @@ public class Character {
 				+ String.valueOf(currentSurges) + "~" + String.valueOf(ac)
 				+ "~" + String.valueOf(fort) + "~" + String.valueOf(ref) + "~"
 				+ String.valueOf(will) + "~" + String.valueOf(speed) + "~"
-				+ String.valueOf(gold) + "~" + notes.replace("\n", "\\n") + "~"
-				+ stringifyItems();
+				+ notes.replace("\n", "\\n") + "~" + stringifyItems() + "~"
+				+ String.valueOf(gold);
 	}
 
 	public String stringifyItems() {
@@ -233,7 +233,7 @@ public class Character {
 		if (!temp.isEmpty())
 			return temp.substring(0, temp.length() - 1);
 		else
-			return "0";
+			return temp;
 	}
 
 	public String toString() {

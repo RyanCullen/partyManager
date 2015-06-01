@@ -3,6 +3,7 @@ package dnd;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -43,8 +45,11 @@ public class CharacterPanel extends JPanel implements ActionListener,
 	private JButton btnAttack;
 	private JButton btnEditCharacter;
 	private Character character;
+	private JFrame inventoryFrame;
 	private JFrame notesFrame;
 	private JTextArea notesDisplay;
+	private ArrayList<JButton> itemRemoveButtons;
+	private JButton addItemButton;
 
 	/**
 	 * Create the panel.
@@ -80,7 +85,6 @@ public class CharacterPanel extends JPanel implements ActionListener,
 		gbc_goldPanel.gridx = 2;
 		gbc_goldPanel.gridy = 0;
 		add(goldPanel, gbc_goldPanel);
-		// goldPanel.setLayout(new BoxLayout(goldPanel, BoxLayout.X_AXIS));
 
 		lblGold = new JLabel("Gold:");
 		goldPanel.add(lblGold);
@@ -105,7 +109,6 @@ public class CharacterPanel extends JPanel implements ActionListener,
 		gbc_HpPanel.gridx = 0;
 		gbc_HpPanel.gridy = 1;
 		add(HpPanel, gbc_HpPanel);
-		// HpPanel.setLayout(new BoxLayout(HpPanel, BoxLayout.X_AXIS));
 
 		lblHp = new JLabel("Hp:");
 		HpPanel.add(lblHp);
@@ -125,7 +128,6 @@ public class CharacterPanel extends JPanel implements ActionListener,
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 1;
 		add(surgesPanel, gbc_panel);
-		// surgesPanel.setLayout(new BoxLayout(surgesPanel, BoxLayout.X_AXIS));
 
 		lblSurges = new JLabel("Surges:");
 		surgesPanel.add(lblSurges);
@@ -184,7 +186,15 @@ public class CharacterPanel extends JPanel implements ActionListener,
 
 		}
 		else if (e.getSource() == btnInventory) {
-
+			inventoryFrame = new JFrame("Inventory of " + character.getName());
+			inventoryFrame
+					.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			inventoryFrame.setResizable(false);
+			inventoryFrame.setLocationRelativeTo(null);
+			;
+			inventoryFrame.setVisible(true);
+			inventoryFrame.addWindowListener(this);
+			showInventory();
 		}
 		else if (e.getSource() == fldGold) {
 			try {
@@ -222,6 +232,41 @@ public class CharacterPanel extends JPanel implements ActionListener,
 				fldSurges.setText(String.valueOf(character.getCurrentSurges()));
 			}
 		}
+		else if (e.getSource() == addItemButton) {
+			AddItemFrame frame = new AddItemFrame(character);
+			frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			frame.setVisible(true);
+			frame.addWindowListener(this);
+		}
+		else if (itemRemoveButtons.contains(e.getSource())) {
+			character.getItemList().remove(
+					itemRemoveButtons.indexOf(e.getSource()));
+			itemRemoveButtons.remove(e.getSource());
+			showInventory();
+		}
+	}
+
+	private void showInventory() {
+		JPanel contentPane = new JPanel();
+		inventoryFrame.setContentPane(contentPane);
+		contentPane.setLayout(new GridLayout(
+				character.getItemList().size() + 1, 2));
+		itemRemoveButtons = new ArrayList<JButton>();
+		for (Item item : character.getItemList()) {
+			JLabel label = new JLabel(item.getName() + " | " + item.getValue()
+					+ "g");
+			label.setToolTipText(item.getDescription());
+			contentPane.add(label);
+			JButton button = new JButton("Remove");
+			itemRemoveButtons.add(button);
+			button.addActionListener(this);
+			contentPane.add(button);
+		}
+		addItemButton = new JButton("Add item");
+		addItemButton.addActionListener(this);
+		contentPane.add(new JLabel());
+		contentPane.add(addItemButton);
+		inventoryFrame.pack();
 	}
 
 	private void displayNotes() {
@@ -275,21 +320,20 @@ public class CharacterPanel extends JPanel implements ActionListener,
 
 	@Override
 	public void windowClosed(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-
+		if (arg0.getSource() instanceof AddItemFrame)
+			showInventory();
+		else if (arg0.getSource() == notesFrame) {
+			character.setNotes(notesDisplay.getText());
+			ManagerFrame.charList.save();
+		}
+		else if (arg0.getSource() == inventoryFrame) {
+			ManagerFrame.charList.save();
+		}
 	}
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		if (arg0.getSource() == notesFrame) {
-			if (!notesDisplay.getText().isEmpty()) {
-				character.setNotes(notesDisplay.getText());
-			}
-			else {
-				character.setNotes("Notes");
-			}
-			ManagerFrame.charList.save();
-		}
+
 	}
 
 	@Override

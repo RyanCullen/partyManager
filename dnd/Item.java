@@ -2,10 +2,20 @@ package dnd;
 
 public class Item {
 	private String name, description;
+	private int value;
 
-	public Item(String name, String description) {
+	public Item(String name, String description, int value) {
 		this.name = name;
 		this.description = description;
+		this.value = value;
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
 	}
 
 	public String getName() {
@@ -25,6 +35,6 @@ public class Item {
 	}
 
 	public String toString() {
-		return name + ":" + description;
+		return name + "`" + description + "`" + String.valueOf(value);
 	}
 }

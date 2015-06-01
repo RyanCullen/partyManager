@@ -150,6 +150,7 @@ public class ManagerFrame extends JFrame implements ActionListener,
 		}
 		else if (arg0.getSource() == addCharacterMenuItem) {
 			AddCharacterFrame frame = new AddCharacterFrame();
+			frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			frame.setVisible(true);
 		}
 		else if (arg0.getSource() == deleteCharacterMenuItem) {
@@ -188,12 +189,16 @@ public class ManagerFrame extends JFrame implements ActionListener,
 
 	@Override
 	public void windowClosed(WindowEvent arg0) {
-
+		if (charList != null) {
+			charList.save();
+		}
 	}
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		charList.save();
+		if (charList != null) {
+			charList.save();
+		}
 	}
 
 	@Override
