@@ -221,7 +221,8 @@ public class Character {
 				+ String.valueOf(currentSurges) + "~" + String.valueOf(ac)
 				+ "~" + String.valueOf(fort) + "~" + String.valueOf(ref) + "~"
 				+ String.valueOf(will) + "~" + String.valueOf(speed) + "~"
-				+ String.valueOf(gold) + "~" + notes + "~" + stringifyItems();
+				+ String.valueOf(gold) + "~" + notes.replace("\n", "\\n") + "~"
+				+ stringifyItems();
 	}
 
 	public String stringifyItems() {

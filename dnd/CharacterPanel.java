@@ -6,18 +6,24 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import java.awt.Component;
+import javax.swing.WindowConstants;
 
-public class CharacterPanel extends JPanel implements ActionListener {
+public class CharacterPanel extends JPanel implements ActionListener,
+		MouseListener, WindowListener {
 	private JLabel lblLevel;
 	private JLabel lblSpeed;
 	private JPanel goldPanel;
@@ -37,6 +43,8 @@ public class CharacterPanel extends JPanel implements ActionListener {
 	private JButton btnAttack;
 	private JButton btnEditCharacter;
 	private Character character;
+	private JFrame notesFrame;
+	private JTextArea notesDisplay;
 
 	/**
 	 * Create the panel.
@@ -72,7 +80,7 @@ public class CharacterPanel extends JPanel implements ActionListener {
 		gbc_goldPanel.gridx = 2;
 		gbc_goldPanel.gridy = 0;
 		add(goldPanel, gbc_goldPanel);
-		//goldPanel.setLayout(new BoxLayout(goldPanel, BoxLayout.X_AXIS));
+		// goldPanel.setLayout(new BoxLayout(goldPanel, BoxLayout.X_AXIS));
 
 		lblGold = new JLabel("Gold:");
 		goldPanel.add(lblGold);
@@ -97,7 +105,7 @@ public class CharacterPanel extends JPanel implements ActionListener {
 		gbc_HpPanel.gridx = 0;
 		gbc_HpPanel.gridy = 1;
 		add(HpPanel, gbc_HpPanel);
-		//HpPanel.setLayout(new BoxLayout(HpPanel, BoxLayout.X_AXIS));
+		// HpPanel.setLayout(new BoxLayout(HpPanel, BoxLayout.X_AXIS));
 
 		lblHp = new JLabel("Hp:");
 		HpPanel.add(lblHp);
@@ -117,7 +125,7 @@ public class CharacterPanel extends JPanel implements ActionListener {
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 1;
 		add(surgesPanel, gbc_panel);
-		//surgesPanel.setLayout(new BoxLayout(surgesPanel, BoxLayout.X_AXIS));
+		// surgesPanel.setLayout(new BoxLayout(surgesPanel, BoxLayout.X_AXIS));
 
 		lblSurges = new JLabel("Surges:");
 		surgesPanel.add(lblSurges);
@@ -158,6 +166,8 @@ public class CharacterPanel extends JPanel implements ActionListener {
 		fldHp.addActionListener(this);
 		fldGold.addActionListener(this);
 		fldSurges.addActionListener(this);
+
+		this.addMouseListener(this);
 		this.character = character;
 		setVisible(true);
 	}
@@ -212,6 +222,97 @@ public class CharacterPanel extends JPanel implements ActionListener {
 				fldSurges.setText(String.valueOf(character.getCurrentSurges()));
 			}
 		}
+	}
+
+	private void displayNotes() {
+		notesFrame = new JFrame("Notes on " + character.getName());
+		notesFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		notesDisplay = new JTextArea(5, 20);
+		notesDisplay.setText(character.getNotes());
+		notesFrame.add(notesDisplay);
+		notesFrame.pack();
+		notesFrame.setLocationRelativeTo(null);
+		notesFrame.setVisible(true);
+		notesFrame.addWindowListener(this);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() == 2) {
+			displayNotes();
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowActivated(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowClosed(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowClosing(WindowEvent arg0) {
+		if (arg0.getSource() == notesFrame) {
+			if (!notesDisplay.getText().isEmpty()) {
+				character.setNotes(notesDisplay.getText());
+			}
+			else {
+				character.setNotes("Notes");
+			}
+			ManagerFrame.charList.save();
+		}
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowIconified(WindowEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void windowOpened(WindowEvent arg0) {
+		// TODO Auto-generated method stub
 
 	}
 

@@ -99,11 +99,11 @@ public class ManagerFrame extends JFrame implements ActionListener,
 		newMenuItem.addActionListener(this);
 		addCharacterMenuItem.addActionListener(this);
 		deleteCharacterMenuItem.addActionListener(this);
-		
+
 		charPanel = new JPanel();
 		charPanel.setLayout(new BoxLayout(charPanel, BoxLayout.Y_AXIS));
 		contentPane.add(charPanel, BorderLayout.CENTER);
-		
+		addWindowListener(this);
 	}
 
 	@Override
@@ -161,8 +161,7 @@ public class ManagerFrame extends JFrame implements ActionListener,
 				String name = (String) JOptionPane.showInputDialog(this,
 						"Choose character to delete.", "Delete Character",
 						JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-				if (name != null)
-				{
+				if (name != null) {
 					charList.deleteCharacter(name);
 					ManagerFrame.drawCharPanels();
 				}

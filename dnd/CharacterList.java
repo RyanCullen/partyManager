@@ -31,6 +31,7 @@ public class CharacterList {
 			while (in.hasNext()) {
 				String[] tokens = in.nextLine().split("~");
 				if (tokens.length != NUM_TOKENS) {
+					System.out.println(tokens.length);
 					continue;
 				}
 				if (takenNames.contains(tokens[0])) {
@@ -51,8 +52,8 @@ public class CharacterList {
 							Integer.parseInt(tokens[8]),
 							Integer.parseInt(tokens[9]),
 							Integer.parseInt(tokens[10]),
-							Integer.parseInt(tokens[11]), tokens[12],
-							tokens[13]));
+							Integer.parseInt(tokens[11]), tokens[12].replace(
+									"\\n", "\n"), tokens[13]));
 					takenNames.add(tokens[0]);
 				}
 			}
