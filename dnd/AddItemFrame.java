@@ -1,6 +1,5 @@
 package dnd;
 
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -28,24 +27,6 @@ public class AddItemFrame extends JFrame implements ActionListener {
 	private JLabel lblValue;
 	private JTextField fldValue;
 	private JTextField fldDesc;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddItemFrame frame = new AddItemFrame(null);
-					frame.pack();
-					frame.setVisible(true);
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -137,6 +118,7 @@ public class AddItemFrame extends JFrame implements ActionListener {
 
 		this.currentChar = character;
 		pack();
+		setLocationRelativeTo(null);
 	}
 
 	public void actionPerformed(ActionEvent e) {

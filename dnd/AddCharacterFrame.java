@@ -35,9 +35,12 @@ public class AddCharacterFrame extends JFrame implements ActionListener {
 	private JTextField fldWill;
 	private JTextField fldSpeed;
 	private JTextField fldGold;
-	private JButton btnAdd;
+	private JButton btnAdd, btnSave;
 	private JButton btnCancel;
 	private JPanel row0, row1, row2, row3, row4, row5;
+	public static final int ADD_OPTION = 0, EDIT_OPTION = 1;
+	private boolean editting = false;
+	private Character character;
 
 	/**
 	 * Create the frame.
@@ -149,6 +152,115 @@ public class AddCharacterFrame extends JFrame implements ActionListener {
 		charList = ManagerFrame.charList;
 	}
 
+	public AddCharacterFrame(Character character) {
+		this.character = character;
+		editting = true;
+		setTitle("Editting " + character.getName());
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 450, 225);
+		contentPane = new JPanel();
+		setContentPane(contentPane);
+		contentPane.setLayout(new GridLayout(6, 1));
+		row0 = new JPanel();
+		row0.setLayout(new GridLayout(1, 4));
+		contentPane.add(row0);
+		row1 = new JPanel();
+		row1.setLayout(new GridLayout(1, 4));
+		contentPane.add(row1);
+		row2 = new JPanel();
+		row2.setLayout(new GridLayout(1, 4));
+		contentPane.add(row2);
+		row3 = new JPanel();
+		row3.setLayout(new GridLayout(1, 4));
+		contentPane.add(row3);
+		row4 = new JPanel();
+		row4.setLayout(new GridLayout(1, 4));
+		contentPane.add(row4);
+		row5 = new JPanel();
+		row5.setLayout(new GridLayout(1, 2));
+		contentPane.add(row5);
+
+		lblName = new JLabel("Name:");
+		row0.add(lblName);
+
+		fldName = new JTextField(character.getName());
+		row0.add(fldName);
+		fldName.setColumns(10);
+
+		lblExp = new JLabel("Experience:");
+		row0.add(lblExp);
+
+		fldExp = new JTextField(String.valueOf(character.getExp()));
+		row0.add(fldExp);
+		fldExp.setColumns(10);
+
+		lblHp = new JLabel("Hitpoints:");
+		row1.add(lblHp);
+
+		fldHp = new JTextField(String.valueOf(character.getMaxHP()));
+		row1.add(fldHp);
+		fldHp.setColumns(10);
+
+		lblSurges = new JLabel("Healing Surges:");
+		row1.add(lblSurges);
+
+		fldSurges = new JTextField(String.valueOf(character.getMaxSurges()));
+		row1.add(fldSurges);
+		fldSurges.setColumns(10);
+
+		lblAc = new JLabel("Armor Class:");
+		row2.add(lblAc);
+
+		fldAc = new JTextField(String.valueOf(character.getAc()));
+		row2.add(fldAc);
+		fldAc.setColumns(10);
+
+		lblFort = new JLabel("Fortitude:");
+		row2.add(lblFort);
+
+		fldFort = new JTextField(String.valueOf(character.getFort()));
+		row2.add(fldFort);
+		fldFort.setColumns(10);
+
+		lblReflex = new JLabel("Reflex:");
+		row3.add(lblReflex);
+
+		fldReflex = new JTextField(String.valueOf(character.getRef()));
+		row3.add(fldReflex);
+		fldReflex.setColumns(10);
+
+		lblWil = new JLabel("Will:");
+		row3.add(lblWil);
+
+		fldWill = new JTextField(String.valueOf(character.getWill()));
+		row3.add(fldWill);
+		fldWill.setColumns(10);
+
+		lblSpeed = new JLabel("Speed:");
+		row4.add(lblSpeed);
+
+		fldSpeed = new JTextField(String.valueOf(character.getSpeed()));
+		row4.add(fldSpeed);
+		fldSpeed.setColumns(10);
+
+		lblGold = new JLabel("Gold:");
+		row4.add(lblGold);
+
+		fldGold = new JTextField(String.valueOf(character.getGold()));
+		row4.add(fldGold);
+		fldGold.setColumns(10);
+
+		btnSave = new JButton("Save");
+		row5.add(btnSave);
+		btnCancel = new JButton("Cancel");
+		row5.add(btnCancel);
+
+		btnCancel.addActionListener(this);
+		btnSave.addActionListener(this);
+
+		charList = ManagerFrame.charList;
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnAdd) {
 			if (verifyFields()) {
@@ -157,8 +269,29 @@ public class AddCharacterFrame extends JFrame implements ActionListener {
 				this.dispose();
 			}
 		}
+		else if (e.getSource() == btnSave) {
+			if (verifyFields()) {
+				saveCharacter();
+				ManagerFrame.drawCharPanels();
+				this.dispose();
+			}
+		}
 		else if (e.getSource() == btnCancel)
 			this.dispose();
+	}
+
+	public void saveCharacter() {
+		character.setName(fldName.getText());
+		character.setExp(Integer.parseInt(fldExp.getText()));
+		character.setMaxHP(Integer.parseInt(fldHp.getText()));
+		character.setMaxSurges(Integer.parseInt(fldSurges.getText()));
+		character.setAc(Integer.parseInt(fldAc.getText()));
+		character.setFort(Integer.parseInt(fldFort.getText()));
+		character.setRef(Integer.parseInt(fldReflex.getText()));
+		character.setWill(Integer.parseInt(fldWill.getText()));
+		character.setSpeed(Integer.parseInt(fldSpeed.getText()));
+		character.setGold(Integer.parseInt(fldGold.getText()));
+		ManagerFrame.charList.save();
 	}
 
 	public void addCharacter() {
@@ -176,6 +309,15 @@ public class AddCharacterFrame extends JFrame implements ActionListener {
 		String errorString = "";
 		if (fldName.getText().isEmpty())
 			errorString += "Name is a required field.\n";
+		else if (editting) {
+			if (!fldName.getText().equals(character.getName())
+					&& charList.takenNames.contains(fldName.getText())) {
+				System.out.println(fldName.getText() + " = "
+						+ character.getName());
+				errorString += "Name " + fldName.getText()
+						+ " is already taken.\n";
+			}
+		}
 		else if (charList.takenNames.contains(fldName.getText()))
 			errorString += "Name " + fldName.getText() + " is already taken.\n";
 		try {

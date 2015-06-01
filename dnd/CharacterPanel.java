@@ -180,7 +180,9 @@ public class CharacterPanel extends JPanel implements ActionListener,
 
 		}
 		else if (e.getSource() == btnEditCharacter) {
-
+			AddCharacterFrame frame = new AddCharacterFrame(character);
+			frame.setLocationRelativeTo(null);
+			frame.setVisible(true);
 		}
 		else if (e.getSource() == btnHeal) {
 
