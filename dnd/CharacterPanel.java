@@ -44,7 +44,7 @@ public class CharacterPanel extends JPanel implements ActionListener,
 	private JButton btnHeal;
 	private JButton btnAttack;
 	private JButton btnEditCharacter;
-	private Character character;
+	public Character character;
 	private JFrame inventoryFrame;
 	private JFrame notesFrame;
 	private JTextArea notesDisplay;

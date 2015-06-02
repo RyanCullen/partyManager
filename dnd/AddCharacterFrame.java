@@ -38,7 +38,6 @@ public class AddCharacterFrame extends JFrame implements ActionListener {
 	private JButton btnAdd, btnSave;
 	private JButton btnCancel;
 	private JPanel row0, row1, row2, row3, row4, row5;
-	public static final int ADD_OPTION = 0, EDIT_OPTION = 1;
 	private boolean editting = false;
 	private Character character;
 
@@ -150,6 +149,7 @@ public class AddCharacterFrame extends JFrame implements ActionListener {
 		btnAdd.addActionListener(this);
 
 		charList = ManagerFrame.charList;
+		setLocationRelativeTo(null);
 	}
 
 	public AddCharacterFrame(Character character) {
@@ -259,6 +259,7 @@ public class AddCharacterFrame extends JFrame implements ActionListener {
 		btnSave.addActionListener(this);
 
 		charList = ManagerFrame.charList;
+		setLocationRelativeTo(null);
 	}
 
 	public void actionPerformed(ActionEvent e) {
