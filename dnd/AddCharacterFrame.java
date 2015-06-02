@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class AddCharacterFrame extends JFrame implements ActionListener {
 
@@ -40,6 +41,7 @@ public class AddCharacterFrame extends JFrame implements ActionListener {
 	private JPanel row0, row1, row2, row3, row4, row5;
 	private boolean editting = false;
 	private Character character;
+	private CharacterPanel parent;
 
 	/**
 	 * Create the frame.
@@ -152,8 +154,9 @@ public class AddCharacterFrame extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 	}
 
-	public AddCharacterFrame(Character character) {
+	public AddCharacterFrame(CharacterPanel parent, Character character) {
 		this.character = character;
+		this.parent = parent;
 		editting = true;
 		setTitle("Editting " + character.getName());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -273,7 +276,7 @@ public class AddCharacterFrame extends JFrame implements ActionListener {
 		else if (e.getSource() == btnSave) {
 			if (verifyFields()) {
 				saveCharacter();
-				ManagerFrame.drawCharPanels();
+				parent.updateFields();
 				this.dispose();
 			}
 		}

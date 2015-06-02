@@ -19,6 +19,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import jdk.nashorn.internal.scripts.JO;
+
 public class AttackFrame implements ActionListener {
 
 	private JFrame frame;
@@ -38,9 +40,11 @@ public class AttackFrame implements ActionListener {
 	private Character character;
 	private ButtonGroup btnGroup;
 	private JTextField fldDamage;
+	private CharacterPanel parent;
 
 	public AttackFrame(CharacterPanel parent) {
 		character = parent.character;
+		this.parent = parent;
 		frame = new JFrame("Attack " + character.getName());
 		frame.setResizable(false);
 		JPanel contentPane = new JPanel();
@@ -177,35 +181,70 @@ public class AttackFrame implements ActionListener {
 			if (character.getAc() < Integer.parseInt(fldAttackRoll.getText()))
 				hit(Integer.parseInt(fldAttackRoll.getText()));
 			else
-				miss(Integer.parseInt(fldAttackRoll.getText()));
+				miss(Integer.parseInt(fldAttackRoll.getText()), chkbxHalfOnMiss.isSelected());
 			break;
 		case 1:
 			if (character.getFort() < Integer.parseInt(fldAttackRoll.getText()))
 				hit(Integer.parseInt(fldAttackRoll.getText()));
 			else
-				miss(Integer.parseInt(fldAttackRoll.getText()));
+				miss(Integer.parseInt(fldAttackRoll.getText()), chkbxHalfOnMiss.isSelected());
 			break;
 		case 2:
 			if (character.getRef() < Integer.parseInt(fldAttackRoll.getText()))
 				hit(Integer.parseInt(fldAttackRoll.getText()));
 			else
-				miss(Integer.parseInt(fldAttackRoll.getText()));
+				miss(Integer.parseInt(fldAttackRoll.getText()), chkbxHalfOnMiss.isSelected());
 			break;
 		case 3:
 			if (character.getWill() < Integer.parseInt(fldAttackRoll.getText()))
 				hit(Integer.parseInt(fldAttackRoll.getText()));
 			else
-				miss(Integer.parseInt(fldAttackRoll.getText()));
+				miss(Integer.parseInt(fldAttackRoll.getText()), chkbxHalfOnMiss.isSelected());
 		}
 	}
 
 	private void hit(int atkRoll) {
-
 		frame.dispose();
+		boolean verified;
+		do {
+			try {
+				String input = JOptionPane.showInputDialog(null, "Hit with " + String.valueOf(atkRoll) + ".\nEnter damage dealt.", "Hit", JOptionPane.INFORMATION_MESSAGE);
+				if (input == null)
+					return;
+				int damage = Integer.parseInt(input);
+				verified = true;
+				character.changeHP(-damage);
+				parent.updateFields();
+			} 
+			catch (NumberFormatException err) {
+				JOptionPane.showMessageDialog(null, "Damage roll must be an integer.", "Error", JOptionPane.ERROR_MESSAGE);
+				verified = false;
+			}
+		} while (!verified);
 	}
 
-	private void miss(int atkRoll) {
-
+	private void miss(int atkRoll, boolean halfOnMiss) {
 		frame.dispose();
+		boolean verified;
+		if (halfOnMiss) {
+			do {
+				try {
+					String input = JOptionPane.showInputDialog(null, "Missed with " + String.valueOf(atkRoll) + ".\nEnter damage. Half will be dealt.", "Miss with half damage.", JOptionPane.INFORMATION_MESSAGE);
+					if (input == null)
+						return;
+					int damage = Integer.parseInt(input);
+					verified = true;
+					character.changeHP(-damage/2);
+					parent.updateFields();
+				}
+				catch (NumberFormatException err) {
+					JOptionPane.showMessageDialog(null, "Damage roll must be an integer.", "Error", JOptionPane.ERROR_MESSAGE);
+					verified = false;
+				}
+			} while (!verified);
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Missed with " + String.valueOf(atkRoll) + ".", "Miss", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 }

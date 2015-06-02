@@ -174,13 +174,22 @@ public class CharacterPanel extends JPanel implements ActionListener,
 		setVisible(true);
 	}
 
+	public void updateFields() {
+		this.setBorder(BorderFactory.createTitledBorder(character.getName()));
+		fldHp.setText(String.valueOf(character.getCurrentHP()));
+		fldSurges.setText(String.valueOf(character.getCurrentSurges()));
+		fldGold.setText(String.valueOf(character.getGold()));
+		lblLevel.setText("Level: " + character.getLevel());
+		lblSpeed.setText("Speed: " + character.getSpeed());
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnAttack) {
-
+			AttackFrame atkFrame = new AttackFrame(this);
 		}
 		else if (e.getSource() == btnEditCharacter) {
-			AddCharacterFrame frame = new AddCharacterFrame(character);
+			AddCharacterFrame frame = new AddCharacterFrame(this, character);
 			frame.setLocationRelativeTo(null);
 			frame.setVisible(true);
 		}
@@ -193,7 +202,6 @@ public class CharacterPanel extends JPanel implements ActionListener,
 					.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			inventoryFrame.setResizable(false);
 			inventoryFrame.setLocationRelativeTo(null);
-			;
 			inventoryFrame.setVisible(true);
 			inventoryFrame.addWindowListener(this);
 			showInventory();
