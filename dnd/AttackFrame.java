@@ -19,24 +19,18 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import jdk.nashorn.internal.scripts.JO;
-
 public class AttackFrame implements ActionListener {
 
 	private JFrame frame;
 	private JPanel contentPane;
-	private JLabel lblDefense;
 	private JTextField fldAttackRoll;
 	private JRadioButton rdbtnArmorClass;
 	private JRadioButton rdbtnFortitude;
 	private JRadioButton rdbtnReflex;
 	private JRadioButton rdbtnWill;
 	private JCheckBox chkbxHalfOnMiss;
-	private JPanel buttonPanel;
 	private JButton btnAttack;
 	private JButton btnCancel;
-	private JLabel lblAttackRoll;
-	private JPanel rdbtnPanel;
 	private Character character;
 	private ButtonGroup btnGroup;
 	private JTextField fldDamage;
@@ -59,21 +53,21 @@ public class AttackFrame implements ActionListener {
 		contentPane.setLayout(gbl_contentPane);
 		contentPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-		lblDefense = new JLabel("Defense:");
+		JLabel lblDefense = new JLabel("Defense:");
 		GridBagConstraints gbc_lblDefense = new GridBagConstraints();
 		gbc_lblDefense.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDefense.gridx = 0;
 		gbc_lblDefense.gridy = 0;
 		contentPane.add(lblDefense, gbc_lblDefense);
 
-		lblAttackRoll = new JLabel("Attack Roll:");
+		JLabel lblAttackRoll = new JLabel("Attack Roll:");
 		GridBagConstraints gbc_lblAttackRoll = new GridBagConstraints();
 		gbc_lblAttackRoll.insets = new Insets(0, 0, 5, 0);
 		gbc_lblAttackRoll.gridx = 1;
 		gbc_lblAttackRoll.gridy = 0;
 		contentPane.add(lblAttackRoll, gbc_lblAttackRoll);
 
-		rdbtnPanel = new JPanel();
+		JPanel rdbtnPanel = new JPanel();
 		GridBagConstraints gbc_rdbtnPanel = new GridBagConstraints();
 		gbc_rdbtnPanel.gridheight = 3;
 		gbc_rdbtnPanel.insets = new Insets(0, 0, 0, 5);
@@ -118,7 +112,7 @@ public class AttackFrame implements ActionListener {
 		gbc_chkbxHalfOnMiss.gridy = 2;
 		contentPane.add(chkbxHalfOnMiss, gbc_chkbxHalfOnMiss);
 
-		buttonPanel = new JPanel();
+		JPanel buttonPanel = new JPanel();
 		GridBagConstraints gbc_buttonPanel = new GridBagConstraints();
 		gbc_buttonPanel.fill = GridBagConstraints.BOTH;
 		gbc_buttonPanel.gridx = 1;
@@ -181,25 +175,29 @@ public class AttackFrame implements ActionListener {
 			if (character.getAc() < Integer.parseInt(fldAttackRoll.getText()))
 				hit(Integer.parseInt(fldAttackRoll.getText()));
 			else
-				miss(Integer.parseInt(fldAttackRoll.getText()), chkbxHalfOnMiss.isSelected());
+				miss(Integer.parseInt(fldAttackRoll.getText()),
+						chkbxHalfOnMiss.isSelected());
 			break;
 		case 1:
 			if (character.getFort() < Integer.parseInt(fldAttackRoll.getText()))
 				hit(Integer.parseInt(fldAttackRoll.getText()));
 			else
-				miss(Integer.parseInt(fldAttackRoll.getText()), chkbxHalfOnMiss.isSelected());
+				miss(Integer.parseInt(fldAttackRoll.getText()),
+						chkbxHalfOnMiss.isSelected());
 			break;
 		case 2:
 			if (character.getRef() < Integer.parseInt(fldAttackRoll.getText()))
 				hit(Integer.parseInt(fldAttackRoll.getText()));
 			else
-				miss(Integer.parseInt(fldAttackRoll.getText()), chkbxHalfOnMiss.isSelected());
+				miss(Integer.parseInt(fldAttackRoll.getText()),
+						chkbxHalfOnMiss.isSelected());
 			break;
 		case 3:
 			if (character.getWill() < Integer.parseInt(fldAttackRoll.getText()))
 				hit(Integer.parseInt(fldAttackRoll.getText()));
 			else
-				miss(Integer.parseInt(fldAttackRoll.getText()), chkbxHalfOnMiss.isSelected());
+				miss(Integer.parseInt(fldAttackRoll.getText()),
+						chkbxHalfOnMiss.isSelected());
 		}
 	}
 
@@ -208,16 +206,20 @@ public class AttackFrame implements ActionListener {
 		boolean verified;
 		do {
 			try {
-				String input = JOptionPane.showInputDialog(null, "Hit with " + String.valueOf(atkRoll) + ".\nEnter damage dealt.", "Hit", JOptionPane.INFORMATION_MESSAGE);
+				String input = JOptionPane.showInputDialog(null, "Hit with "
+						+ String.valueOf(atkRoll) + ".\nEnter damage dealt.",
+						"Hit", JOptionPane.INFORMATION_MESSAGE);
 				if (input == null)
 					return;
 				int damage = Integer.parseInt(input);
 				verified = true;
 				character.changeHP(-damage);
 				parent.updateFields();
-			} 
+			}
 			catch (NumberFormatException err) {
-				JOptionPane.showMessageDialog(null, "Damage roll must be an integer.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,
+						"Damage roll must be an integer.", "Error",
+						JOptionPane.ERROR_MESSAGE);
 				verified = false;
 			}
 		} while (!verified);
@@ -229,22 +231,30 @@ public class AttackFrame implements ActionListener {
 		if (halfOnMiss) {
 			do {
 				try {
-					String input = JOptionPane.showInputDialog(null, "Missed with " + String.valueOf(atkRoll) + ".\nEnter damage. Half will be dealt.", "Miss with half damage.", JOptionPane.INFORMATION_MESSAGE);
+					String input = JOptionPane.showInputDialog(null,
+							"Missed with " + String.valueOf(atkRoll)
+									+ ".\nEnter damage. Half will be dealt.",
+							"Miss with half damage.",
+							JOptionPane.INFORMATION_MESSAGE);
 					if (input == null)
 						return;
 					int damage = Integer.parseInt(input);
 					verified = true;
-					character.changeHP(-damage/2);
+					character.changeHP(-damage / 2);
 					parent.updateFields();
 				}
 				catch (NumberFormatException err) {
-					JOptionPane.showMessageDialog(null, "Damage roll must be an integer.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Damage roll must be an integer.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					verified = false;
 				}
 			} while (!verified);
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "Missed with " + String.valueOf(atkRoll) + ".", "Miss", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"Missed with " + String.valueOf(atkRoll) + ".", "Miss",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 }

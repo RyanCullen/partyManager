@@ -109,6 +109,10 @@ public class Character {
 		this.currentSurges = currentSurges;
 	}
 
+	public void changeSurges(int change) {
+		this.currentSurges += change;
+	}
+	
 	public void addExp(int exp) {
 		this.exp += exp;
 		this.level = calculateLevel();

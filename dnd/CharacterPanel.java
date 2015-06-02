@@ -194,7 +194,7 @@ public class CharacterPanel extends JPanel implements ActionListener,
 			frame.setVisible(true);
 		}
 		else if (e.getSource() == btnHeal) {
-
+			HealFrame healFrame = new HealFrame(this);
 		}
 		else if (e.getSource() == btnInventory) {
 			inventoryFrame = new JFrame("Inventory of " + character.getName());
