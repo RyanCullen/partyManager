@@ -119,6 +119,7 @@ public class AddItemFrame extends JFrame implements ActionListener {
 		this.currentChar = character;
 		pack();
 		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {

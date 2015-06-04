@@ -181,6 +181,8 @@ public class CharacterPanel extends JPanel implements ActionListener,
 		fldGold.setText(String.valueOf(character.getGold()));
 		lblLevel.setText("Level: " + character.getLevel());
 		lblSpeed.setText("Speed: " + character.getSpeed());
+		lblMaxHp.setText("/ " + character.getMaxHP());
+		lblMaxSurges.setText("/ " + character.getMaxSurges());
 	}
 
 	@Override
@@ -197,14 +199,7 @@ public class CharacterPanel extends JPanel implements ActionListener,
 			HealFrame healFrame = new HealFrame(this);
 		}
 		else if (e.getSource() == btnInventory) {
-			inventoryFrame = new JFrame("Inventory of " + character.getName());
-			inventoryFrame
-					.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			inventoryFrame.setResizable(false);
-			inventoryFrame.setLocationRelativeTo(null);
-			inventoryFrame.setVisible(true);
-			inventoryFrame.addWindowListener(this);
-			showInventory();
+			InventoryFrame invFrame = new InventoryFrame(this);
 		}
 		else if (e.getSource() == fldGold) {
 			try {
@@ -248,35 +243,6 @@ public class CharacterPanel extends JPanel implements ActionListener,
 			frame.setVisible(true);
 			frame.addWindowListener(this);
 		}
-		else if (itemRemoveButtons.contains(e.getSource())) {
-			character.getItemList().remove(
-					itemRemoveButtons.indexOf(e.getSource()));
-			itemRemoveButtons.remove(e.getSource());
-			showInventory();
-		}
-	}
-
-	private void showInventory() {
-		JPanel contentPane = new JPanel();
-		inventoryFrame.setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(
-				character.getItemList().size() + 1, 2));
-		itemRemoveButtons = new ArrayList<JButton>();
-		for (Item item : character.getItemList()) {
-			JLabel label = new JLabel(item.getName() + " | " + item.getValue()
-					+ "g");
-			label.setToolTipText(item.getDescription());
-			contentPane.add(label);
-			JButton button = new JButton("Remove");
-			itemRemoveButtons.add(button);
-			button.addActionListener(this);
-			contentPane.add(button);
-		}
-		addItemButton = new JButton("Add item");
-		addItemButton.addActionListener(this);
-		contentPane.add(new JLabel());
-		contentPane.add(addItemButton);
-		inventoryFrame.pack();
 	}
 
 	private void displayNotes() {
@@ -330,9 +296,7 @@ public class CharacterPanel extends JPanel implements ActionListener,
 
 	@Override
 	public void windowClosed(WindowEvent arg0) {
-		if (arg0.getSource() instanceof AddItemFrame)
-			showInventory();
-		else if (arg0.getSource() == notesFrame) {
+		if (arg0.getSource() == notesFrame) {
 			character.setNotes(notesDisplay.getText());
 			ManagerFrame.charList.save();
 		}

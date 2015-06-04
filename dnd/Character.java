@@ -7,7 +7,7 @@ public class Character {
 			initiative, maxSurges, currentSurges;
 	private String name, notes;
 	private ArrayList<Item> items = new ArrayList<Item>();
-	private static final int[] EXP_TABLE = { -1, 0, 1000, 2250, 3750, 5500,
+	private static final int[] EXP_TABLE = { Integer.MIN_VALUE, 0, 1000, 2250, 3750, 5500,
 			7500, 10000, 13000, 16500, 20500, 26000, 32000, 39000, 47000,
 			57000, 69000, 83000, 99000, 119000, 143000, 175000, 210000, 255000,
 			310000, 375000, 450000, 550000, 675000, 825000, 1000000,
@@ -79,20 +79,26 @@ public class Character {
 		return items;
 	}
 
-	public boolean removeItem(String itemName) {
-		for (Item item : items) {
-			if (item.getName().equalsIgnoreCase(itemName)) {
-				items.remove(item);
-				return true;
-			}
-		}
-		return false;
+	public void removeItem(Item item) {
+		items.remove(item);
 	}
 
 	public void changeGold(int change) {
 		this.gold += change;
 	}
 
+	public void changeSurges(int change) {
+		this.currentSurges += change;
+	}
+	
+	public void changeExp(int exp) {
+		this.exp += exp;
+	}
+
+	public void changeHP(int change) {
+		this.currentHP += change;
+	}
+	
 	public int getMaxSurges() {
 		return maxSurges;
 	}
@@ -109,25 +115,12 @@ public class Character {
 		this.currentSurges = currentSurges;
 	}
 
-	public void changeSurges(int change) {
-		this.currentSurges += change;
-	}
-	
-	public void addExp(int exp) {
-		this.exp += exp;
-		this.level = calculateLevel();
-	}
-
-	public void changeHP(int change) {
-		this.currentHP += change;
-	}
-
 	public int getLevel() {
-		return level;
+		return calculateLevel();
 	}
 
 	public void setLevel(int level) {
-		this.level = level;
+		this.exp = EXP_TABLE[level];
 	}
 
 	public int getMaxHP() {
