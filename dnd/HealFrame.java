@@ -27,6 +27,7 @@ public class HealFrame {
 	private JButton btnHeal;
 	private JButton btnCancel;
 
+	// Constructor for frame
 	public HealFrame(CharacterPanel parent) {
 		frame = new JFrame("Heal " + parent.character.getName());
 		JPanel contentPane = new JPanel();
@@ -84,6 +85,7 @@ public class HealFrame {
 		btnPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		btnHeal = new JButton("Heal");
+		// ActionListener to save and update GUI if fields are valid
 		btnHeal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (verifyFields()) {
@@ -95,12 +97,15 @@ public class HealFrame {
 					frame.dispose();
 				}
 				else
-					JOptionPane.showMessageDialog(null, "Both fields require integers.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Both fields require integers.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		btnPanel.add(btnHeal);
 
 		btnCancel = new JButton("Cancel");
+		// ActionListener to cancel
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -115,6 +120,7 @@ public class HealFrame {
 		frame.setVisible(true);
 	}
 
+	// Make sure inputs are valid
 	private boolean verifyFields() {
 		try {
 			Integer.parseInt(fldHeal.getText());

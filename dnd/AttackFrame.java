@@ -36,6 +36,7 @@ public class AttackFrame implements ActionListener {
 	private JTextField fldDamage;
 	private CharacterPanel parent;
 
+	// Constructor for frame
 	public AttackFrame(CharacterPanel parent) {
 		character = parent.character;
 		this.parent = parent;
@@ -169,6 +170,7 @@ public class AttackFrame implements ActionListener {
 
 	}
 
+	// Option to indicate which defense to test
 	private void didItHit(int option) {
 		switch (option) {
 		case 0:
@@ -201,6 +203,7 @@ public class AttackFrame implements ActionListener {
 		}
 	}
 
+	// Get damage from user, apply it to the character and update GUI
 	private void hit(int atkRoll) {
 		frame.dispose();
 		boolean verified;
@@ -225,6 +228,8 @@ public class AttackFrame implements ActionListener {
 		} while (!verified);
 	}
 
+	// Display miss message. If checked, get damage from user, apply half to the
+	// character and update GUI
 	private void miss(int atkRoll, boolean halfOnMiss) {
 		frame.dispose();
 		boolean verified;

@@ -22,6 +22,7 @@ public class InventoryFrame {
 	private JPanel contentPane, itemsPanel;
 	private CharacterPanel parent;
 
+	// Constructor for frame
 	public InventoryFrame(CharacterPanel parent) {
 		this.parent = parent;
 		frame = new JFrame("Inventory of " + parent.character.getName());
@@ -36,9 +37,11 @@ public class InventoryFrame {
 		contentPane.add(itemsPanel);
 		JPanel btnPanel = new JPanel();
 		JButton btnAdd = new JButton("Add Item");
+		// ActionListener for remove item button
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddItemFrame addItemFrame = new AddItemFrame(parent.character);
+				// WindowListener to update GUI after adding item
 				addItemFrame.addWindowListener(new WindowListener() {
 					@Override
 					public void windowClosed(WindowEvent arg0) {
@@ -79,6 +82,7 @@ public class InventoryFrame {
 		frame.setVisible(true);
 	}
 
+	// Draws the items in the items ArrayList
 	private void drawItems() {
 		itemsPanel.removeAll();
 		itemsPanel.setLayout(new GridBagLayout());
