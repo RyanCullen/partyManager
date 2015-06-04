@@ -45,11 +45,8 @@ public class CharacterPanel extends JPanel implements ActionListener,
 	private JButton btnAttack;
 	private JButton btnEditCharacter;
 	public Character character;
-	private JFrame inventoryFrame;
 	private JFrame notesFrame;
 	private JTextArea notesDisplay;
-	private ArrayList<JButton> itemRemoveButtons;
-	private JButton addItemButton;
 
 	/**
 	 * Create the panel.
@@ -237,12 +234,6 @@ public class CharacterPanel extends JPanel implements ActionListener,
 				fldSurges.setText(String.valueOf(character.getCurrentSurges()));
 			}
 		}
-		else if (e.getSource() == addItemButton) {
-			AddItemFrame frame = new AddItemFrame(character);
-			frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			frame.setVisible(true);
-			frame.addWindowListener(this);
-		}
 	}
 
 	private void displayNotes() {
@@ -298,9 +289,6 @@ public class CharacterPanel extends JPanel implements ActionListener,
 	public void windowClosed(WindowEvent arg0) {
 		if (arg0.getSource() == notesFrame) {
 			character.setNotes(notesDisplay.getText());
-			ManagerFrame.charList.save();
-		}
-		else if (arg0.getSource() == inventoryFrame) {
 			ManagerFrame.charList.save();
 		}
 	}

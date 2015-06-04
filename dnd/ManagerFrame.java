@@ -139,6 +139,7 @@ public class ManagerFrame extends JFrame implements ActionListener,
 					dataFileName = temp.toString();
 					charList = new CharacterList(dataFileName);
 					partyMenu.setEnabled(true);
+					drawCharPanels();
 				}
 				catch (IOException e) {
 					JOptionPane.showMessageDialog(this,

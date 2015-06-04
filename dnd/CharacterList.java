@@ -89,14 +89,6 @@ public class CharacterList {
 		return charList;
 	}
 
-	public Character getCharacter(String name) {
-		for (Character aChar : charList) {
-			if (aChar.getName().equalsIgnoreCase(name))
-				return aChar;
-		}
-		return null;
-	}
-
 	public void deleteCharacter(String name) {
 		for (Character aChar : charList) {
 			if (aChar.getName().equalsIgnoreCase(name)) {

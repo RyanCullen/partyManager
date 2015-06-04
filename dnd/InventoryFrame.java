@@ -90,15 +90,18 @@ public class InventoryFrame {
 		for (Item item : parent.character.getItemList()) {
 			int j = 0;
 			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.anchor = GridBagConstraints.WEST;
 			gbc.insets = new Insets(0, 5, 0, 5);
 			gbc.gridx = j++;
 			gbc.gridy = i++;
 			JLabel lblName = new JLabel(item.getName());
 			itemsPanel.add(lblName, gbc);
 			gbc.gridx = j++;
+			gbc.anchor = GridBagConstraints.EAST;
 			JLabel lblPrice = new JLabel(String.valueOf(item.getValue()) + "g");
 			itemsPanel.add(lblPrice, gbc);
 			gbc.gridx = j++;
+			gbc.anchor = GridBagConstraints.WEST;
 			JLabel lblDesc = new JLabel(item.getDescription());
 			itemsPanel.add(lblDesc, gbc);
 			gbc.gridx = j++;
