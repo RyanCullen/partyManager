@@ -2,7 +2,8 @@ package dnd;
 
 public class NPC {
 	
-	private int reward, level, maxHP, currentHP, ac, fort, ref, will, speed;
+	private int reward, level, maxHP, currentHP, ac, fort, ref, will, speed, initiative;
+
 	private String name, notes;
 	
 	public NPC(String name, int level, int hp, int speed, int ac, int fort, int ref, int will, int rewardExp) {
@@ -25,6 +26,14 @@ public class NPC {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	public int getInitiative() {
+		return initiative;
+	}
+
+	public void setInitiative(int initiative) {
+		this.initiative = initiative;
 	}
 
 	public int getLevel() {

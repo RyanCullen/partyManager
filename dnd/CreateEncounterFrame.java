@@ -7,11 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -21,11 +23,12 @@ public class CreateEncounterFrame {
 	private JFrame frame;
 	private JPanel addNpcPanel, initiativesPanel;
 	private JPanel npcPanel;
-	private JButton btnAddNpc;
+	private JButton btnCancel;
 	private ArrayList<NPC> npcList = new ArrayList<NPC>();
+	private ArrayList<JTextField> fldList = new ArrayList<JTextField>();
 
 	public CreateEncounterFrame() {
-		frame = new JFrame("New Encounter");
+		frame = new JFrame("Add NPCs");
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		frame.setContentPane(contentPane);
@@ -43,7 +46,7 @@ public class CreateEncounterFrame {
 		btnPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 
 		CreateEncounterFrame thisObj = this;
-		btnAddNpc = new JButton("Add NPC");
+		JButton btnAddNpc = new JButton("Add NPC");
 		btnAddNpc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddNpcFrame addNpcFrame = new AddNpcFrame(thisObj);
@@ -54,13 +57,15 @@ public class CreateEncounterFrame {
 		btnDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				contentPane.removeAll();
+				initiativesPanel = new JPanel();
 				drawInitiativesPanel();
 				contentPane.add(initiativesPanel);
+				frame.setTitle("Enter initiatives");
 				frame.pack();
 			}
 		});
 		btnPanel.add(btnDone);
-		JButton btnCancel = new JButton("Cancel");
+		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -106,8 +111,59 @@ public class CreateEncounterFrame {
 	}
 
 	private void drawInitiativesPanel() {
-		initiativesPanel = new JPanel();
-		
+		initiativesPanel.setLayout(new BoxLayout(initiativesPanel, BoxLayout.Y_AXIS));
+		JPanel playerInitPanel = new JPanel();
+		playerInitPanel.setBorder(BorderFactory.createTitledBorder("Players"));
+		playerInitPanel.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = GridBagConstraints.RELATIVE;
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		int col = 0;
+		for (Character character : ManagerFrame.charList.getList()) {
+			gbc.gridy = col++;
+			playerInitPanel.add(new JLabel(character.getName()), gbc);
+			JTextField field = new JTextField(3);
+			fldList.add(field);
+			playerInitPanel.add(field, gbc);
+		}
+		initiativesPanel.add(playerInitPanel);
+		JPanel npcInitPanel = new JPanel();
+		npcInitPanel.setBorder(BorderFactory.createTitledBorder("NPCs"));
+		npcInitPanel.setLayout(new GridBagLayout());
+		col = 0;
+		for (NPC npc : npcList) {
+			gbc.gridy = col++;
+			npcInitPanel.add(new JLabel(npc.getName()), gbc);
+			JTextField field = new JTextField(3);
+			fldList.add(field);
+			npcInitPanel.add(field, gbc);
+		}
+		if (npcList.size() > 0)
+			initiativesPanel.add(npcInitPanel);
+		JPanel btnPanel = new JPanel();
+		JButton btnStart = new JButton("Start");
+		btnStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+			}
+		});
+		btnPanel.add(btnStart);
+		btnPanel.add(btnCancel);
+		initiativesPanel.add(btnPanel);
 	}
 	
+	private boolean verifyFields() {
+		boolean valid = true;
+		for (JTextField field : fldList) {
+			try {
+				Integer.parseInt(field.getText());
+			}
+			catch (NumberFormatException e) {
+				valid = false;
+				break;
+			}
+		}
+		return valid;
+	}
 }
