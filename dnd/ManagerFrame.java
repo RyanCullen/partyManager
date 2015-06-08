@@ -89,7 +89,7 @@ public class ManagerFrame extends JFrame implements ActionListener,
 		deleteCharacterMenuItem = new JMenuItem("Delete Character");
 		partyMenu.add(deleteCharacterMenuItem);
 		partyMenu.setEnabled(false);
-		
+
 		startNewEncounterMenuItem = new JMenuItem("Start New Encounter");
 		partyMenu.add(startNewEncounterMenuItem);
 
@@ -176,8 +176,12 @@ public class ManagerFrame extends JFrame implements ActionListener,
 						"Party is empty. Nothing to delete.", "Error",
 						JOptionPane.ERROR_MESSAGE);
 		}
-		else if (arg0.getSource() == startNewEncounterMenuItem) { 
-			CreateEncounterFrame createEncounterFrame = new CreateEncounterFrame();
+		else if (arg0.getSource() == startNewEncounterMenuItem) {
+			if (charList.getNumChars() > 0) { 
+				CreateEncounterFrame createEncounterFrame = new CreateEncounterFrame();
+			}
+			else
+				JOptionPane.showMessageDialog(frame, "Party must have at least one member to initiate encounters.", "Error", JOptionPane.ERROR_MESSAGE);				
 		}
 	}
 
