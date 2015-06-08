@@ -150,9 +150,7 @@ public class ManagerFrame extends JFrame implements ActionListener,
 			}
 		}
 		else if (arg0.getSource() == addCharacterMenuItem) {
-			AddCharacterFrame frame = new AddCharacterFrame();
-			frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-			frame.setVisible(true);
+			AddCharacterFrame addCharacterFrame = new AddCharacterFrame();
 		}
 		else if (arg0.getSource() == deleteCharacterMenuItem) {
 			if (charList.getNumChars() != 0) {

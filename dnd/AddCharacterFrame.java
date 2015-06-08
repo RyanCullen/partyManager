@@ -1,6 +1,9 @@
 package dnd;
 
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,292 +13,249 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 
-public class AddCharacterFrame extends JFrame implements ActionListener {
+public class AddCharacterFrame {
 
-	private JPanel contentPane;
-	private CharacterList charList;
+	protected JFrame frame;
+	protected CharacterList charList = ManagerFrame.charList;
+	protected boolean editting = false;
+	protected Character character;
 	private JLabel lblName;
-	private JTextField fldName;
-	private JLabel lblExp;
-	private JTextField fldExp;
-	private JLabel lblHp;
-	private JTextField fldHp;
-	private JLabel lblSurges;
-	private JTextField fldSurges;
-	private JLabel lblAc;
-	private JTextField fldAc;
-	private JLabel lblFort;
-	private JTextField fldFort;
+	private JLabel lblHitpoints;
+	private JLabel lblArmorClass;
 	private JLabel lblReflex;
-	private JLabel lblWil;
 	private JLabel lblSpeed;
+	private JLabel lblExperience;
+	private JLabel lblHealingSurges;
+	private JLabel lblFortitude;
+	private JLabel lblWill;
 	private JLabel lblGold;
-	private JTextField fldReflex;
-	private JTextField fldWill;
-	private JTextField fldSpeed;
-	private JTextField fldGold;
-	private JButton btnAdd, btnSave;
-	private JButton btnCancel;
-	private JPanel row0, row1, row2, row3, row4, row5;
-	private boolean editting = false;
-	private Character character;
-	private CharacterPanel parent;
+	protected JTextField fldName;
+	protected JTextField fldHp;
+	protected JTextField fldAc;
+	protected JTextField fldReflex;
+	protected JTextField fldSpeed;
+	protected JTextField fldExp;
+	protected JTextField fldSurges;
+	protected JTextField fldFort;
+	protected JTextField fldWill;
+	protected JTextField fldGold;
+	protected JPanel btnPanel;
+	protected JButton btnAdd;
+	protected JButton btnCancel;
 
-	/**
-	 * Create the frame.
-	 */
 	public AddCharacterFrame() {
-		setTitle("New Character");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 225);
-		contentPane = new JPanel();
-		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(6, 1));
-		row0 = new JPanel();
-		row0.setLayout(new GridLayout(1, 4));
-		contentPane.add(row0);
-		row1 = new JPanel();
-		row1.setLayout(new GridLayout(1, 4));
-		contentPane.add(row1);
-		row2 = new JPanel();
-		row2.setLayout(new GridLayout(1, 4));
-		contentPane.add(row2);
-		row3 = new JPanel();
-		row3.setLayout(new GridLayout(1, 4));
-		contentPane.add(row3);
-		row4 = new JPanel();
-		row4.setLayout(new GridLayout(1, 4));
-		contentPane.add(row4);
-		row5 = new JPanel();
-		row5.setLayout(new GridLayout(1, 2));
-		contentPane.add(row5);
+		frame = new JFrame("New Character");
+		JPanel contentPane = new JPanel();
+		frame.setContentPane(contentPane);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[] { 0, 0, 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0,
+				Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0,
+				1.0, Double.MIN_VALUE };
+		contentPane.setLayout(gbl_contentPane);
 
 		lblName = new JLabel("Name:");
-		row0.add(lblName);
+		GridBagConstraints gbc_lblName = new GridBagConstraints();
+		gbc_lblName.anchor = GridBagConstraints.WEST;
+		gbc_lblName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblName.gridx = 0;
+		gbc_lblName.gridy = 0;
+		contentPane.add(lblName, gbc_lblName);
 
 		fldName = new JTextField();
-		row0.add(fldName);
+		GridBagConstraints gbc_fldName = new GridBagConstraints();
+		gbc_fldName.insets = new Insets(0, 0, 5, 5);
+		gbc_fldName.gridx = 1;
+		gbc_fldName.gridy = 0;
+		contentPane.add(fldName, gbc_fldName);
 		fldName.setColumns(10);
 
-		lblExp = new JLabel("Experience:");
-		row0.add(lblExp);
+		lblExperience = new JLabel("Experience:");
+		GridBagConstraints gbc_lblExperience = new GridBagConstraints();
+		gbc_lblExperience.anchor = GridBagConstraints.WEST;
+		gbc_lblExperience.insets = new Insets(0, 0, 5, 5);
+		gbc_lblExperience.gridx = 2;
+		gbc_lblExperience.gridy = 0;
+		contentPane.add(lblExperience, gbc_lblExperience);
 
 		fldExp = new JTextField();
-		row0.add(fldExp);
+		GridBagConstraints gbc_fldExp = new GridBagConstraints();
+		gbc_fldExp.insets = new Insets(0, 0, 5, 0);
+		gbc_fldExp.gridx = 3;
+		gbc_fldExp.gridy = 0;
+		contentPane.add(fldExp, gbc_fldExp);
 		fldExp.setColumns(10);
 
-		lblHp = new JLabel("Hitpoints:");
-		row1.add(lblHp);
+		lblHitpoints = new JLabel("Hitpoints:");
+		GridBagConstraints gbc_lblHitpoints = new GridBagConstraints();
+		gbc_lblHitpoints.anchor = GridBagConstraints.WEST;
+		gbc_lblHitpoints.insets = new Insets(0, 0, 5, 5);
+		gbc_lblHitpoints.gridx = 0;
+		gbc_lblHitpoints.gridy = 1;
+		contentPane.add(lblHitpoints, gbc_lblHitpoints);
 
 		fldHp = new JTextField();
-		row1.add(fldHp);
+		GridBagConstraints gbc_fldHp = new GridBagConstraints();
+		gbc_fldHp.insets = new Insets(0, 0, 5, 5);
+		gbc_fldHp.gridx = 1;
+		gbc_fldHp.gridy = 1;
+		contentPane.add(fldHp, gbc_fldHp);
 		fldHp.setColumns(10);
 
-		lblSurges = new JLabel("Healing Surges:");
-		row1.add(lblSurges);
+		lblHealingSurges = new JLabel("Healing Surges:");
+		GridBagConstraints gbc_lblHealingSurges = new GridBagConstraints();
+		gbc_lblHealingSurges.anchor = GridBagConstraints.WEST;
+		gbc_lblHealingSurges.insets = new Insets(0, 0, 5, 5);
+		gbc_lblHealingSurges.gridx = 2;
+		gbc_lblHealingSurges.gridy = 1;
+		contentPane.add(lblHealingSurges, gbc_lblHealingSurges);
 
 		fldSurges = new JTextField();
-		row1.add(fldSurges);
+		GridBagConstraints gbc_fldSurges = new GridBagConstraints();
+		gbc_fldSurges.insets = new Insets(0, 0, 5, 0);
+		gbc_fldSurges.gridx = 3;
+		gbc_fldSurges.gridy = 1;
+		contentPane.add(fldSurges, gbc_fldSurges);
 		fldSurges.setColumns(10);
 
-		lblAc = new JLabel("Armor Class:");
-		row2.add(lblAc);
+		lblArmorClass = new JLabel("Armor Class:");
+		GridBagConstraints gbc_lblArmorClass = new GridBagConstraints();
+		gbc_lblArmorClass.anchor = GridBagConstraints.WEST;
+		gbc_lblArmorClass.insets = new Insets(0, 0, 5, 5);
+		gbc_lblArmorClass.gridx = 0;
+		gbc_lblArmorClass.gridy = 2;
+		contentPane.add(lblArmorClass, gbc_lblArmorClass);
 
 		fldAc = new JTextField();
-		row2.add(fldAc);
+		GridBagConstraints gbc_fldAc = new GridBagConstraints();
+		gbc_fldAc.insets = new Insets(0, 0, 5, 5);
+		gbc_fldAc.gridx = 1;
+		gbc_fldAc.gridy = 2;
+		contentPane.add(fldAc, gbc_fldAc);
 		fldAc.setColumns(10);
 
-		lblFort = new JLabel("Fortitude:");
-		row2.add(lblFort);
+		lblFortitude = new JLabel("Fortitude:");
+		GridBagConstraints gbc_lblFortitude = new GridBagConstraints();
+		gbc_lblFortitude.anchor = GridBagConstraints.WEST;
+		gbc_lblFortitude.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFortitude.gridx = 2;
+		gbc_lblFortitude.gridy = 2;
+		contentPane.add(lblFortitude, gbc_lblFortitude);
 
 		fldFort = new JTextField();
-		row2.add(fldFort);
+		GridBagConstraints gbc_fldFort = new GridBagConstraints();
+		gbc_fldFort.insets = new Insets(0, 0, 5, 0);
+		gbc_fldFort.gridx = 3;
+		gbc_fldFort.gridy = 2;
+		contentPane.add(fldFort, gbc_fldFort);
 		fldFort.setColumns(10);
 
 		lblReflex = new JLabel("Reflex:");
-		row3.add(lblReflex);
+		GridBagConstraints gbc_lblReflex = new GridBagConstraints();
+		gbc_lblReflex.anchor = GridBagConstraints.WEST;
+		gbc_lblReflex.insets = new Insets(0, 0, 5, 5);
+		gbc_lblReflex.gridx = 0;
+		gbc_lblReflex.gridy = 3;
+		contentPane.add(lblReflex, gbc_lblReflex);
 
 		fldReflex = new JTextField();
-		row3.add(fldReflex);
+		GridBagConstraints gbc_fldReflex = new GridBagConstraints();
+		gbc_fldReflex.insets = new Insets(0, 0, 5, 5);
+		gbc_fldReflex.gridx = 1;
+		gbc_fldReflex.gridy = 3;
+		contentPane.add(fldReflex, gbc_fldReflex);
 		fldReflex.setColumns(10);
 
-		lblWil = new JLabel("Wil:");
-		row3.add(lblWil);
+		lblWill = new JLabel("Will:");
+		GridBagConstraints gbc_lblWill = new GridBagConstraints();
+		gbc_lblWill.anchor = GridBagConstraints.WEST;
+		gbc_lblWill.insets = new Insets(0, 0, 5, 5);
+		gbc_lblWill.gridx = 2;
+		gbc_lblWill.gridy = 3;
+		contentPane.add(lblWill, gbc_lblWill);
 
 		fldWill = new JTextField();
-		row3.add(fldWill);
+		GridBagConstraints gbc_fldWill = new GridBagConstraints();
+		gbc_fldWill.insets = new Insets(0, 0, 5, 0);
+		gbc_fldWill.gridx = 3;
+		gbc_fldWill.gridy = 3;
+		contentPane.add(fldWill, gbc_fldWill);
 		fldWill.setColumns(10);
 
 		lblSpeed = new JLabel("Speed:");
-		row4.add(lblSpeed);
+		GridBagConstraints gbc_lblSpeed = new GridBagConstraints();
+		gbc_lblSpeed.anchor = GridBagConstraints.WEST;
+		gbc_lblSpeed.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSpeed.gridx = 0;
+		gbc_lblSpeed.gridy = 4;
+		contentPane.add(lblSpeed, gbc_lblSpeed);
 
 		fldSpeed = new JTextField();
-		row4.add(fldSpeed);
+		GridBagConstraints gbc_fldSpeed = new GridBagConstraints();
+		gbc_fldSpeed.insets = new Insets(0, 0, 5, 5);
+		gbc_fldSpeed.gridx = 1;
+		gbc_fldSpeed.gridy = 4;
+		contentPane.add(fldSpeed, gbc_fldSpeed);
 		fldSpeed.setColumns(10);
 
 		lblGold = new JLabel("Gold:");
-		row4.add(lblGold);
+		GridBagConstraints gbc_lblGold = new GridBagConstraints();
+		gbc_lblGold.insets = new Insets(0, 0, 5, 5);
+		gbc_lblGold.anchor = GridBagConstraints.WEST;
+		gbc_lblGold.gridx = 2;
+		gbc_lblGold.gridy = 4;
+		contentPane.add(lblGold, gbc_lblGold);
 
 		fldGold = new JTextField();
-		row4.add(fldGold);
+		GridBagConstraints gbc_fldGold = new GridBagConstraints();
+		gbc_fldGold.insets = new Insets(0, 0, 5, 0);
+		gbc_fldGold.gridx = 3;
+		gbc_fldGold.gridy = 4;
+		contentPane.add(fldGold, gbc_fldGold);
 		fldGold.setColumns(10);
+
+		btnPanel = new JPanel();
+		btnPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		GridBagConstraints gbc_btnPanel = new GridBagConstraints();
+		gbc_btnPanel.gridwidth = 4;
+		gbc_btnPanel.fill = GridBagConstraints.BOTH;
+		gbc_btnPanel.gridx = 0;
+		gbc_btnPanel.gridy = 5;
+		contentPane.add(btnPanel, gbc_btnPanel);
+		btnPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		btnAdd = new JButton("Add");
-		row5.add(btnAdd);
-		btnCancel = new JButton("Cancel");
-		row5.add(btnCancel);
-
-		btnCancel.addActionListener(this);
-		btnAdd.addActionListener(this);
-
-		charList = ManagerFrame.charList;
-		setLocationRelativeTo(null);
-	}
-
-	public AddCharacterFrame(CharacterPanel parent, Character character) {
-		this.character = character;
-		this.parent = parent;
-		editting = true;
-		setTitle("Editting " + character.getName());
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 225);
-		contentPane = new JPanel();
-		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(6, 1));
-		row0 = new JPanel();
-		row0.setLayout(new GridLayout(1, 4));
-		contentPane.add(row0);
-		row1 = new JPanel();
-		row1.setLayout(new GridLayout(1, 4));
-		contentPane.add(row1);
-		row2 = new JPanel();
-		row2.setLayout(new GridLayout(1, 4));
-		contentPane.add(row2);
-		row3 = new JPanel();
-		row3.setLayout(new GridLayout(1, 4));
-		contentPane.add(row3);
-		row4 = new JPanel();
-		row4.setLayout(new GridLayout(1, 4));
-		contentPane.add(row4);
-		row5 = new JPanel();
-		row5.setLayout(new GridLayout(1, 2));
-		contentPane.add(row5);
-
-		lblName = new JLabel("Name:");
-		row0.add(lblName);
-
-		fldName = new JTextField(character.getName());
-		row0.add(fldName);
-		fldName.setColumns(10);
-
-		lblExp = new JLabel("Experience:");
-		row0.add(lblExp);
-
-		fldExp = new JTextField(String.valueOf(character.getExp()));
-		row0.add(fldExp);
-		fldExp.setColumns(10);
-
-		lblHp = new JLabel("Hitpoints:");
-		row1.add(lblHp);
-
-		fldHp = new JTextField(String.valueOf(character.getMaxHP()));
-		row1.add(fldHp);
-		fldHp.setColumns(10);
-
-		lblSurges = new JLabel("Healing Surges:");
-		row1.add(lblSurges);
-
-		fldSurges = new JTextField(String.valueOf(character.getMaxSurges()));
-		row1.add(fldSurges);
-		fldSurges.setColumns(10);
-
-		lblAc = new JLabel("Armor Class:");
-		row2.add(lblAc);
-
-		fldAc = new JTextField(String.valueOf(character.getAc()));
-		row2.add(fldAc);
-		fldAc.setColumns(10);
-
-		lblFort = new JLabel("Fortitude:");
-		row2.add(lblFort);
-
-		fldFort = new JTextField(String.valueOf(character.getFort()));
-		row2.add(fldFort);
-		fldFort.setColumns(10);
-
-		lblReflex = new JLabel("Reflex:");
-		row3.add(lblReflex);
-
-		fldReflex = new JTextField(String.valueOf(character.getRef()));
-		row3.add(fldReflex);
-		fldReflex.setColumns(10);
-
-		lblWil = new JLabel("Will:");
-		row3.add(lblWil);
-
-		fldWill = new JTextField(String.valueOf(character.getWill()));
-		row3.add(fldWill);
-		fldWill.setColumns(10);
-
-		lblSpeed = new JLabel("Speed:");
-		row4.add(lblSpeed);
-
-		fldSpeed = new JTextField(String.valueOf(character.getSpeed()));
-		row4.add(fldSpeed);
-		fldSpeed.setColumns(10);
-
-		lblGold = new JLabel("Gold:");
-		row4.add(lblGold);
-
-		fldGold = new JTextField(String.valueOf(character.getGold()));
-		row4.add(fldGold);
-		fldGold.setColumns(10);
-
-		btnSave = new JButton("Save");
-		row5.add(btnSave);
-		btnCancel = new JButton("Cancel");
-		row5.add(btnCancel);
-
-		btnCancel.addActionListener(this);
-		btnSave.addActionListener(this);
-
-		charList = ManagerFrame.charList;
-		setLocationRelativeTo(null);
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnAdd) {
-			if (verifyFields()) {
-				addCharacter();
-				ManagerFrame.drawCharPanels();
-				this.dispose();
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (verifyFields()) {
+					addCharacter();
+					ManagerFrame.drawCharPanels();
+					frame.dispose();
+				}
 			}
-		}
-		else if (e.getSource() == btnSave) {
-			if (verifyFields()) {
-				saveCharacter();
-				parent.updateFields();
-				this.dispose();
-			}
-		}
-		else if (e.getSource() == btnCancel)
-			this.dispose();
-	}
+		});
+		btnPanel.add(btnAdd);
 
-	public void saveCharacter() {
-		character.setName(fldName.getText());
-		character.setExp(Integer.parseInt(fldExp.getText()));
-		character.setMaxHP(Integer.parseInt(fldHp.getText()));
-		character.setMaxSurges(Integer.parseInt(fldSurges.getText()));
-		character.setAc(Integer.parseInt(fldAc.getText()));
-		character.setFort(Integer.parseInt(fldFort.getText()));
-		character.setRef(Integer.parseInt(fldReflex.getText()));
-		character.setWill(Integer.parseInt(fldWill.getText()));
-		character.setSpeed(Integer.parseInt(fldSpeed.getText()));
-		character.setGold(Integer.parseInt(fldGold.getText()));
-		ManagerFrame.charList.save();
+		btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
+		btnPanel.add(btnCancel);
+		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		frame.setResizable(false);
+
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 	}
 
 	public void addCharacter() {
@@ -379,7 +339,7 @@ public class AddCharacterFrame extends JFrame implements ActionListener {
 			errorString += "The gold field requires an integer.\n";
 		}
 		if (!errorString.isEmpty()) {
-			JOptionPane.showMessageDialog(this, errorString, "Error",
+			JOptionPane.showMessageDialog(frame, errorString, "Error",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}

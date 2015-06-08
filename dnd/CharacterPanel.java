@@ -188,9 +188,7 @@ public class CharacterPanel extends JPanel implements ActionListener,
 			AttackFrame atkFrame = new AttackFrame(this);
 		}
 		else if (e.getSource() == btnEditCharacter) {
-			AddCharacterFrame frame = new AddCharacterFrame(this, character);
-			frame.setLocationRelativeTo(null);
-			frame.setVisible(true);
+			EditCharacterFrame editCharacterFrame = new EditCharacterFrame(this, character);
 		}
 		else if (e.getSource() == btnHeal) {
 			HealFrame healFrame = new HealFrame(this);
