@@ -36,6 +36,7 @@ public class ManagerFrame extends JFrame implements ActionListener,
 	private JMenuItem deleteCharacterMenuItem;
 	private static JPanel charPanel;
 	private static ManagerFrame frame;
+	private JMenuItem startNewEncounterMenuItem;
 
 	/**
 	 * Launch the application.
@@ -88,6 +89,9 @@ public class ManagerFrame extends JFrame implements ActionListener,
 		deleteCharacterMenuItem = new JMenuItem("Delete Character");
 		partyMenu.add(deleteCharacterMenuItem);
 		partyMenu.setEnabled(false);
+		
+		startNewEncounterMenuItem = new JMenuItem("Start New Encounter");
+		partyMenu.add(startNewEncounterMenuItem);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -99,6 +103,7 @@ public class ManagerFrame extends JFrame implements ActionListener,
 		newMenuItem.addActionListener(this);
 		addCharacterMenuItem.addActionListener(this);
 		deleteCharacterMenuItem.addActionListener(this);
+		startNewEncounterMenuItem.addActionListener(this);
 
 		charPanel = new JPanel();
 		charPanel.setLayout(new BoxLayout(charPanel, BoxLayout.Y_AXIS));
@@ -170,6 +175,9 @@ public class ManagerFrame extends JFrame implements ActionListener,
 				JOptionPane.showMessageDialog(this,
 						"Party is empty. Nothing to delete.", "Error",
 						JOptionPane.ERROR_MESSAGE);
+		}
+		else if (arg0.getSource() == startNewEncounterMenuItem) { 
+			CreateEncounterFrame createEncounterFrame = new CreateEncounterFrame();
 		}
 	}
 

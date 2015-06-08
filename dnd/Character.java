@@ -3,16 +3,17 @@ package dnd;
 import java.util.ArrayList;
 
 public class Character {
-	private int level, maxHP, currentHP, ac, fort, ref, will, speed, exp, gold,
+	protected int level, maxHP, currentHP, ac, fort, ref, will, speed, exp, gold,
 			initiative, maxSurges, currentSurges;
-	private String name, notes;
-	private ArrayList<Item> items = new ArrayList<Item>();
-	private static final int[] EXP_TABLE = { Integer.MIN_VALUE, 0, 1000, 2250, 3750, 5500,
+	protected String name, notes;
+	protected char type;
+	protected ArrayList<Item> items = new ArrayList<Item>();
+	protected static final int[] EXP_TABLE = { Integer.MIN_VALUE, 0, 1000, 2250, 3750, 5500,
 			7500, 10000, 13000, 16500, 20500, 26000, 32000, 39000, 47000,
 			57000, 69000, 83000, 99000, 119000, 143000, 175000, 210000, 255000,
 			310000, 375000, 450000, 550000, 675000, 825000, 1000000,
 			Integer.MAX_VALUE };
-
+	
 	// Constructor for new characters
 	public Character(String name, int exp, int hp, int surges, int ac,
 			int fort, int ref, int will, int speed, int gold) {
@@ -30,6 +31,7 @@ public class Character {
 		this.speed = speed;
 		this.gold = gold;
 		this.notes = "";
+		this.type = 'P';
 	}
 
 	// Constructor for loading a character
@@ -51,6 +53,7 @@ public class Character {
 		this.notes = notes;
 		loadItems(itemString);
 		this.gold = gold;
+		this.type = 'P';
 	}
 
 	private int calculateLevel() {
@@ -99,6 +102,14 @@ public class Character {
 		this.currentHP += change;
 	}
 	
+	public int getInitiative() {
+		return initiative;
+	}
+
+	public void setInitiative(int initiative) {
+		this.initiative = initiative;
+	}
+
 	public int getMaxSurges() {
 		return maxSurges;
 	}
