@@ -6,6 +6,7 @@ public abstract class Character implements Comparable {
 	protected int maxHP, currentHP, ac, fort, ref, will, speed,
 			initiative;
 	protected String name, notes;
+	protected char type;
 	
 	// Constructor for new characters
 	public Character(String name,  int hp, int ac,
@@ -21,6 +22,8 @@ public abstract class Character implements Comparable {
 		this.notes = "";
 	}
 
+	protected abstract char getType();
+	
 	public void changeHP(int change) {
 		this.currentHP += change;
 	}

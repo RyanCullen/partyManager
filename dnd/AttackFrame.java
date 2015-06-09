@@ -31,16 +31,16 @@ public class AttackFrame implements ActionListener {
 	private JCheckBox chkbxHalfOnMiss;
 	private JButton btnAttack;
 	private JButton btnCancel;
-	private Player player;
+	private Character character;
 	private ButtonGroup btnGroup;
 	private JTextField fldDamage;
-	private PlayerPanel parent;
+	private Object theParentPanel;
 
 	// Constructor for frame
-	public AttackFrame(PlayerPanel parent) {
-		player = parent.player;
-		this.parent = parent;
-		frame = new JFrame("Attack " + player.getName());
+	public AttackFrame(Object theParentPanel, Character character) {
+		this.character = character;
+		this.theParentPanel = theParentPanel;
+		frame = new JFrame("Attack " + character.getName());
 		frame.setResizable(false);
 		JPanel contentPane = new JPanel();
 		frame.setContentPane(contentPane);
@@ -174,28 +174,28 @@ public class AttackFrame implements ActionListener {
 	private void didItHit(int option) {
 		switch (option) {
 		case 0:
-			if (player.getAc() < Integer.parseInt(fldAttackRoll.getText()))
+			if (character.getAc() < Integer.parseInt(fldAttackRoll.getText()))
 				hit(Integer.parseInt(fldAttackRoll.getText()));
 			else
 				miss(Integer.parseInt(fldAttackRoll.getText()),
 						chkbxHalfOnMiss.isSelected());
 			break;
 		case 1:
-			if (player.getFort() < Integer.parseInt(fldAttackRoll.getText()))
+			if (character.getFort() < Integer.parseInt(fldAttackRoll.getText()))
 				hit(Integer.parseInt(fldAttackRoll.getText()));
 			else
 				miss(Integer.parseInt(fldAttackRoll.getText()),
 						chkbxHalfOnMiss.isSelected());
 			break;
 		case 2:
-			if (player.getRef() < Integer.parseInt(fldAttackRoll.getText()))
+			if (character.getRef() < Integer.parseInt(fldAttackRoll.getText()))
 				hit(Integer.parseInt(fldAttackRoll.getText()));
 			else
 				miss(Integer.parseInt(fldAttackRoll.getText()),
 						chkbxHalfOnMiss.isSelected());
 			break;
 		case 3:
-			if (player.getWill() < Integer.parseInt(fldAttackRoll.getText()))
+			if (character.getWill() < Integer.parseInt(fldAttackRoll.getText()))
 				hit(Integer.parseInt(fldAttackRoll.getText()));
 			else
 				miss(Integer.parseInt(fldAttackRoll.getText()),
@@ -216,8 +216,11 @@ public class AttackFrame implements ActionListener {
 					return;
 				int damage = Integer.parseInt(input);
 				verified = true;
-				player.changeHP(-damage);
-				parent.updateFields();
+				character.changeHP(-damage);
+				if (character.getType() == 'P')
+					((PlayerPanel)theParentPanel).updateFields();
+				else
+					((EncounterPanel)theParentPanel).updateFields();
 			}
 			catch (NumberFormatException err) {
 				JOptionPane.showMessageDialog(null,
@@ -245,8 +248,11 @@ public class AttackFrame implements ActionListener {
 						return;
 					int damage = Integer.parseInt(input);
 					verified = true;
-					player.changeHP(-damage / 2);
-					parent.updateFields();
+					character.changeHP(-damage / 2);
+					if (character.getType() == 'P')
+						((PlayerPanel)theParentPanel).updateFields();
+					else
+						((EncounterPanel)theParentPanel).updateFields();
 				}
 				catch (NumberFormatException err) {
 					JOptionPane.showMessageDialog(null,

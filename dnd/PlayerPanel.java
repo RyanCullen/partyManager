@@ -185,13 +185,13 @@ public class PlayerPanel extends JPanel implements ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnAttack) {
-			AttackFrame atkFrame = new AttackFrame(this);
+			AttackFrame atkFrame = new AttackFrame(this, player);
 		}
 		else if (e.getSource() == btnEditplayer) {
-			EditPlayerFrame editplayerFrame = new EditPlayerFrame(this, player);
+			EditPlayerFrame editPlayerFrame = new EditPlayerFrame(this, player);
 		}
 		else if (e.getSource() == btnHeal) {
-			HealFrame healFrame = new HealFrame(this);
+			HealFrame healFrame = new HealFrame(this, player);
 		}
 		else if (e.getSource() == btnInventory) {
 			InventoryFrame invFrame = new InventoryFrame(this);

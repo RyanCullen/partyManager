@@ -19,6 +19,7 @@ public class Player extends Character {
 		this.maxSurges = surges;
 		this.currentSurges = surges;		
 		this.gold = gold;
+		this.type = 'P';
 	}
 
 	// Constructor for loading a Player
@@ -33,6 +34,7 @@ public class Player extends Character {
 		this.notes = notes;
 		loadItems(itemString);
 		this.gold = gold;
+		this.type = 'P';
 	}
 
 	private int calculateLevel() {
@@ -137,5 +139,10 @@ public class Player extends Character {
 			return temp.substring(0, temp.length() - 1);
 		else
 			return temp;
+	}
+
+	@Override
+	protected char getType() {
+		return type;
 	}
 }

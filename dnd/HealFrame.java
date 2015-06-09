@@ -26,10 +26,12 @@ public class HealFrame {
 	private JPanel btnPanel;
 	private JButton btnHeal;
 	private JButton btnCancel;
+	private Character character;
 
 	// Constructor for frame
-	public HealFrame(PlayerPanel parent) {
-		frame = new JFrame("Heal " + parent.player.getName());
+	public HealFrame(Object theParentPanel, Character character) {
+		this.character = character;
+		frame = new JFrame("Heal " + character.getName());
 		JPanel contentPane = new JPanel();
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
@@ -58,22 +60,24 @@ public class HealFrame {
 		contentPane.add(fldHeal, gbc_fldHeal);
 		fldHeal.setColumns(3);
 
-		lblSurgesUsed = new JLabel("Surges used:");
-		GridBagConstraints gbc_lblSurgesUsed = new GridBagConstraints();
-		gbc_lblSurgesUsed.anchor = GridBagConstraints.EAST;
-		gbc_lblSurgesUsed.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSurgesUsed.gridx = 0;
-		gbc_lblSurgesUsed.gridy = 1;
-		contentPane.add(lblSurgesUsed, gbc_lblSurgesUsed);
+		if (character.type == 'P') {
+			lblSurgesUsed = new JLabel("Surges used:");
+			GridBagConstraints gbc_lblSurgesUsed = new GridBagConstraints();
+			gbc_lblSurgesUsed.anchor = GridBagConstraints.EAST;
+			gbc_lblSurgesUsed.insets = new Insets(0, 0, 5, 5);
+			gbc_lblSurgesUsed.gridx = 0;
+			gbc_lblSurgesUsed.gridy = 1;
+			contentPane.add(lblSurgesUsed, gbc_lblSurgesUsed);
 
-		fldSurges = new JTextField();
-		GridBagConstraints gbc_fldSurges = new GridBagConstraints();
-		gbc_fldSurges.anchor = GridBagConstraints.WEST;
-		gbc_fldSurges.insets = new Insets(0, 0, 5, 0);
-		gbc_fldSurges.gridx = 1;
-		gbc_fldSurges.gridy = 1;
-		contentPane.add(fldSurges, gbc_fldSurges);
-		fldSurges.setColumns(3);
+			fldSurges = new JTextField();
+			GridBagConstraints gbc_fldSurges = new GridBagConstraints();
+			gbc_fldSurges.anchor = GridBagConstraints.WEST;
+			gbc_fldSurges.insets = new Insets(0, 0, 5, 0);
+			gbc_fldSurges.gridx = 1;
+			gbc_fldSurges.gridy = 1;
+			contentPane.add(fldSurges, gbc_fldSurges);
+			fldSurges.setColumns(3);
+		}
 
 		btnPanel = new JPanel();
 		GridBagConstraints gbc_btnPanel = new GridBagConstraints();
@@ -89,11 +93,14 @@ public class HealFrame {
 		btnHeal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (verifyFields()) {
-					parent.player.changeHP(Integer.parseInt(fldHeal
-							.getText()));
-					parent.player.changeSurges(-Integer.parseInt(fldSurges
-							.getText()));
-					parent.updateFields();
+					character.changeHP(Integer.parseInt(fldHeal.getText()));
+					if (character.type == 'P') {
+						((Player) character).changeSurges(-Integer
+								.parseInt(fldSurges.getText()));
+					((PlayerPanel)theParentPanel).updateFields();
+					}
+					else
+						((EncounterPanel)theParentPanel).updateFields();
 					frame.dispose();
 				}
 				else
@@ -124,7 +131,8 @@ public class HealFrame {
 	private boolean verifyFields() {
 		try {
 			Integer.parseInt(fldHeal.getText());
-			Integer.parseInt(fldSurges.getText());
+			if (character.getType() == 'P')
+				Integer.parseInt(fldSurges.getText());
 			return true;
 		}
 		catch (NumberFormatException err) {

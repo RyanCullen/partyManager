@@ -9,6 +9,7 @@ public class NPC extends Character {
 		super(name, hp, ac, fort, ref, will, speed);
 		this.level = level;
 		this.reward = rewardExp;
+		this.type = 'N';
 	}
 
 	public int getLevel() {
@@ -25,6 +26,11 @@ public class NPC extends Character {
 
 	public void setReward(int reward) {
 		this.reward = reward;
+	}
+
+	@Override
+	protected char getType() {
+		return type;
 	}
 
 }
