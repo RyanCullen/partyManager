@@ -29,8 +29,8 @@ public class HealFrame {
 	private Character character;
 
 	// Constructor for frame
-	public HealFrame(Object theParentPanel, Character character) {
-		this.character = character;
+	public HealFrame(EncounterPanel parent) {
+		this.character = parent.getCharacter();
 		frame = new JFrame("Heal " + character.getName());
 		JPanel contentPane = new JPanel();
 		frame.setContentPane(contentPane);
@@ -94,18 +94,15 @@ public class HealFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (verifyFields()) {
 					character.changeHP(Integer.parseInt(fldHeal.getText()));
-					if (character.type == 'P') {
+					if (character.type == 'P') 
 						((Player) character).changeSurges(-Integer
 								.parseInt(fldSurges.getText()));
-					((PlayerPanel)theParentPanel).updateFields();
-					}
-					else
-						((EncounterPanel)theParentPanel).updateFields();
+					parent.updateFields();
 					frame.dispose();
 				}
 				else
 					JOptionPane.showMessageDialog(null,
-							"Both fields require integers.", "Error",
+							"Fields require integers.", "Error",
 							JOptionPane.ERROR_MESSAGE);
 			}
 		});

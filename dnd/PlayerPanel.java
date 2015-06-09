@@ -3,7 +3,6 @@ package dnd;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
+@SuppressWarnings("serial")
 public class PlayerPanel extends JPanel implements ActionListener,
 		MouseListener, WindowListener {
 	private JLabel lblLevel;
@@ -40,9 +39,7 @@ public class PlayerPanel extends JPanel implements ActionListener,
 	private JLabel lblSurges;
 	private JTextField fldSurges;
 	private JLabel lblMaxSurges;
-	private JPanel panel_1;
-	private JButton btnHeal;
-	private JButton btnAttack;
+	private JPanel speedPanel;
 	private JButton btnEditplayer;
 	public Player player;
 	private JFrame notesFrame;
@@ -56,7 +53,7 @@ public class PlayerPanel extends JPanel implements ActionListener,
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0,
+		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0,
 				Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
@@ -68,17 +65,31 @@ public class PlayerPanel extends JPanel implements ActionListener,
 		gbc_lblLevel.gridy = 0;
 		add(lblLevel, gbc_lblLevel);
 
-		lblSpeed = new JLabel("Speed: " + player.getSpeed());
-		GridBagConstraints gbc_lblSpeed = new GridBagConstraints();
-		gbc_lblSpeed.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSpeed.gridx = 1;
-		gbc_lblSpeed.gridy = 0;
-		add(lblSpeed, gbc_lblSpeed);
+		HpPanel = new JPanel();
+		GridBagConstraints gbc_HpPanel = new GridBagConstraints();
+		gbc_HpPanel.anchor = GridBagConstraints.EAST;
+		gbc_HpPanel.insets = new Insets(0, 0, 5, 5);
+		gbc_HpPanel.fill = GridBagConstraints.VERTICAL;
+		gbc_HpPanel.gridx = 1;
+		gbc_HpPanel.gridy = 0;
+		add(HpPanel, gbc_HpPanel);
+
+		lblHp = new JLabel("Hp:");
+		HpPanel.add(lblHp);
+
+		fldHp = new JTextField(String.valueOf(player.getCurrentHP()), 2);
+		fldHp.setHorizontalAlignment(SwingConstants.TRAILING);
+		HpPanel.add(fldHp);
+
+		lblMaxHp = new JLabel("/ " + player.getMaxHP());
+		HpPanel.add(lblMaxHp);
+		fldHp.addActionListener(this);
 
 		goldPanel = new JPanel();
 		GridBagConstraints gbc_goldPanel = new GridBagConstraints();
+		gbc_goldPanel.anchor = GridBagConstraints.WEST;
 		gbc_goldPanel.insets = new Insets(0, 0, 5, 5);
-		gbc_goldPanel.fill = GridBagConstraints.BOTH;
+		gbc_goldPanel.fill = GridBagConstraints.VERTICAL;
 		gbc_goldPanel.gridx = 2;
 		gbc_goldPanel.gridy = 0;
 		add(goldPanel, gbc_goldPanel);
@@ -86,7 +97,7 @@ public class PlayerPanel extends JPanel implements ActionListener,
 		lblGold = new JLabel("Gold:");
 		goldPanel.add(lblGold);
 
-		fldGold = new JTextField(String.valueOf(player.getGold()), 6);
+		fldGold = new JTextField(String.valueOf(player.getGold()), 4);
 		fldGold.setHorizontalAlignment(SwingConstants.TRAILING);
 		goldPanel.add(fldGold);
 
@@ -98,28 +109,9 @@ public class PlayerPanel extends JPanel implements ActionListener,
 		gbc_btnInventory.gridy = 0;
 		add(btnInventory, gbc_btnInventory);
 
-		HpPanel = new JPanel();
-		GridBagConstraints gbc_HpPanel = new GridBagConstraints();
-		gbc_HpPanel.anchor = GridBagConstraints.WEST;
-		gbc_HpPanel.insets = new Insets(0, 0, 0, 5);
-		gbc_HpPanel.fill = GridBagConstraints.VERTICAL;
-		gbc_HpPanel.gridx = 0;
-		gbc_HpPanel.gridy = 1;
-		add(HpPanel, gbc_HpPanel);
-
-		lblHp = new JLabel("Hp:");
-		HpPanel.add(lblHp);
-
-		fldHp = new JTextField(String.valueOf(player.getCurrentHP()), 3);
-		fldHp.setHorizontalAlignment(SwingConstants.TRAILING);
-		HpPanel.add(fldHp);
-
-		lblMaxHp = new JLabel("/ " + player.getMaxHP());
-		HpPanel.add(lblMaxHp);
-
 		surgesPanel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.anchor = GridBagConstraints.WEST;
+		gbc_panel.anchor = GridBagConstraints.EAST;
 		gbc_panel.insets = new Insets(0, 0, 0, 5);
 		gbc_panel.fill = GridBagConstraints.VERTICAL;
 		gbc_panel.gridx = 1;
@@ -129,40 +121,33 @@ public class PlayerPanel extends JPanel implements ActionListener,
 		lblSurges = new JLabel("Surges:");
 		surgesPanel.add(lblSurges);
 
-		fldSurges = new JTextField(
-				String.valueOf(player.getCurrentSurges()), 2);
+		fldSurges = new JTextField(String.valueOf(player.getCurrentSurges()), 2);
 		fldSurges.setHorizontalAlignment(SwingConstants.TRAILING);
 		surgesPanel.add(fldSurges);
 
 		lblMaxSurges = new JLabel("/ " + player.getMaxSurges());
 		surgesPanel.add(lblMaxSurges);
 
-		panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 2;
-		gbc_panel_1.gridy = 1;
-		add(panel_1, gbc_panel_1);
-		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		speedPanel = new JPanel();
+		GridBagConstraints gbc_speedPanel = new GridBagConstraints();
+		gbc_speedPanel.anchor = GridBagConstraints.WEST;
+		gbc_speedPanel.insets = new Insets(0, 0, 0, 5);
+		gbc_speedPanel.fill = GridBagConstraints.VERTICAL;
+		gbc_speedPanel.gridx = 2;
+		gbc_speedPanel.gridy = 1;
+		add(speedPanel, gbc_speedPanel);
+		speedPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		btnAttack = new JButton("Attack");
-		panel_1.add(btnAttack);
-
-		btnHeal = new JButton("Heal");
-		panel_1.add(btnHeal);
+		lblSpeed = new JLabel("Speed: " + player.getSpeed());
+		speedPanel.add(lblSpeed);
 
 		btnEditplayer = new JButton("Edit player");
 		GridBagConstraints gbc_btnEditplayer = new GridBagConstraints();
 		gbc_btnEditplayer.gridx = 3;
 		gbc_btnEditplayer.gridy = 1;
 		add(btnEditplayer, gbc_btnEditplayer);
-
-		btnAttack.addActionListener(this);
 		btnEditplayer.addActionListener(this);
-		btnHeal.addActionListener(this);
 		btnInventory.addActionListener(this);
-		fldHp.addActionListener(this);
 		fldGold.addActionListener(this);
 		fldSurges.addActionListener(this);
 
@@ -184,17 +169,11 @@ public class PlayerPanel extends JPanel implements ActionListener,
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnAttack) {
-			AttackFrame atkFrame = new AttackFrame(this, player);
-		}
-		else if (e.getSource() == btnEditplayer) {
-			EditPlayerFrame editPlayerFrame = new EditPlayerFrame(this, player);
-		}
-		else if (e.getSource() == btnHeal) {
-			HealFrame healFrame = new HealFrame(this, player);
+		if (e.getSource() == btnEditplayer) {
+			new EditPlayerFrame(this, player);
 		}
 		else if (e.getSource() == btnInventory) {
-			InventoryFrame invFrame = new InventoryFrame(this);
+			new InventoryFrame(this);
 		}
 		else if (e.getSource() == fldGold) {
 			try {
@@ -239,7 +218,7 @@ public class PlayerPanel extends JPanel implements ActionListener,
 		notesFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		notesDisplay = new JTextArea(5, 20);
 		notesDisplay.setText(player.getNotes());
-		notesFrame.add(notesDisplay);
+		notesFrame.getContentPane().add(notesDisplay);
 		notesFrame.pack();
 		notesFrame.setLocationRelativeTo(null);
 		notesFrame.setVisible(true);

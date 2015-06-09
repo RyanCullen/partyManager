@@ -22,7 +22,6 @@ import javax.swing.WindowConstants;
 public class AttackFrame implements ActionListener {
 
 	private JFrame frame;
-	private JPanel contentPane;
 	private JTextField fldAttackRoll;
 	private JRadioButton rdbtnArmorClass;
 	private JRadioButton rdbtnFortitude;
@@ -33,13 +32,12 @@ public class AttackFrame implements ActionListener {
 	private JButton btnCancel;
 	private Character character;
 	private ButtonGroup btnGroup;
-	private JTextField fldDamage;
-	private Object theParentPanel;
+	private EncounterPanel parent;
 
 	// Constructor for frame
-	public AttackFrame(Object theParentPanel, Character character) {
-		this.character = character;
-		this.theParentPanel = theParentPanel;
+	public AttackFrame(EncounterPanel parent) {
+		this.character = parent.getCharacter();
+		this.parent = parent;
 		frame = new JFrame("Attack " + character.getName());
 		frame.setResizable(false);
 		JPanel contentPane = new JPanel();
@@ -217,10 +215,7 @@ public class AttackFrame implements ActionListener {
 				int damage = Integer.parseInt(input);
 				verified = true;
 				character.changeHP(-damage);
-				if (character.getType() == 'P')
-					((PlayerPanel)theParentPanel).updateFields();
-				else
-					((EncounterPanel)theParentPanel).updateFields();
+				parent.updateFields();
 			}
 			catch (NumberFormatException err) {
 				JOptionPane.showMessageDialog(null,
@@ -249,10 +244,7 @@ public class AttackFrame implements ActionListener {
 					int damage = Integer.parseInt(input);
 					verified = true;
 					character.changeHP(-damage / 2);
-					if (character.getType() == 'P')
-						((PlayerPanel)theParentPanel).updateFields();
-					else
-						((EncounterPanel)theParentPanel).updateFields();
+					parent.updateFields();
 				}
 				catch (NumberFormatException err) {
 					JOptionPane.showMessageDialog(null,
