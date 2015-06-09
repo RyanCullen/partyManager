@@ -20,12 +20,12 @@ public class InventoryFrame {
 
 	private JFrame frame;
 	private JPanel contentPane, itemsPanel;
-	private CharacterPanel parent;
+	private PlayerPanel parent;
 
 	// Constructor for frame
-	public InventoryFrame(CharacterPanel parent) {
+	public InventoryFrame(PlayerPanel parent) {
 		this.parent = parent;
-		frame = new JFrame("Inventory of " + parent.character.getName());
+		frame = new JFrame("Inventory of " + parent.player.getName());
 		contentPane = new JPanel();
 		frame.setContentPane(contentPane);
 		frame.setResizable(false);
@@ -40,7 +40,7 @@ public class InventoryFrame {
 		// ActionListener for remove item button
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AddItemFrame addItemFrame = new AddItemFrame(parent.character);
+				AddItemFrame addItemFrame = new AddItemFrame(parent.player);
 				// WindowListener to update GUI after adding item
 				addItemFrame.addWindowListener(new WindowListener() {
 					@Override
@@ -87,7 +87,7 @@ public class InventoryFrame {
 		itemsPanel.removeAll();
 		itemsPanel.setLayout(new GridBagLayout());
 		int i = 0;
-		for (Item item : parent.character.getItemList()) {
+		for (Item item : parent.player.getItemList()) {
 			int j = 0;
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.anchor = GridBagConstraints.WEST;
@@ -108,7 +108,7 @@ public class InventoryFrame {
 			JButton btnRemove = new JButton("Delete");
 			btnRemove.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					parent.character.removeItem(item);
+					parent.player.removeItem(item);
 					drawItems();
 					frame.pack();
 				}

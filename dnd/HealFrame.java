@@ -28,8 +28,8 @@ public class HealFrame {
 	private JButton btnCancel;
 
 	// Constructor for frame
-	public HealFrame(CharacterPanel parent) {
-		frame = new JFrame("Heal " + parent.character.getName());
+	public HealFrame(PlayerPanel parent) {
+		frame = new JFrame("Heal " + parent.player.getName());
 		JPanel contentPane = new JPanel();
 		frame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
@@ -89,9 +89,9 @@ public class HealFrame {
 		btnHeal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (verifyFields()) {
-					parent.character.changeHP(Integer.parseInt(fldHeal
+					parent.player.changeHP(Integer.parseInt(fldHeal
 							.getText()));
-					parent.character.changeSurges(-Integer.parseInt(fldSurges
+					parent.player.changeSurges(-Integer.parseInt(fldSurges
 							.getText()));
 					parent.updateFields();
 					frame.dispose();

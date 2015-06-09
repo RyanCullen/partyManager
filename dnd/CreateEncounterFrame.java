@@ -122,9 +122,9 @@ public class CreateEncounterFrame {
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.insets = new Insets(0, 5, 5, 5);
 		int col = 0;
-		for (Character character : ManagerFrame.charList.getList()) {
+		for (Player player : ManagerFrame.playerList.getList()) {
 			gbc.gridy = col++;
-			playerInitPanel.add(new JLabel(character.getName()), gbc);
+			playerInitPanel.add(new JLabel(player.getName()), gbc);
 			JTextField field = new JTextField(3);
 			fldList.add(field);
 			playerInitPanel.add(field, gbc);
@@ -149,8 +149,8 @@ public class CreateEncounterFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (verifyFields()) {
 					int i = 0;
-					for (Character character : ManagerFrame.charList.getList()) {
-						character.setInitiative(Integer.parseInt(fldList.get(i++).getText()));
+					for (Player player : ManagerFrame.playerList.getList()) {
+						player.setInitiative(Integer.parseInt(fldList.get(i++).getText()));
 					}
 					for (NPC npc : npcList) {
 						npc.setInitiative(Integer.parseInt(fldList.get(i++).getText()));

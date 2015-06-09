@@ -24,7 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
-public class CharacterPanel extends JPanel implements ActionListener,
+public class PlayerPanel extends JPanel implements ActionListener,
 		MouseListener, WindowListener {
 	private JLabel lblLevel;
 	private JLabel lblSpeed;
@@ -43,16 +43,16 @@ public class CharacterPanel extends JPanel implements ActionListener,
 	private JPanel panel_1;
 	private JButton btnHeal;
 	private JButton btnAttack;
-	private JButton btnEditCharacter;
-	public Character character;
+	private JButton btnEditplayer;
+	public Player player;
 	private JFrame notesFrame;
 	private JTextArea notesDisplay;
 
 	/**
 	 * Create the panel.
 	 */
-	public CharacterPanel(Character character) {
-		setBorder(BorderFactory.createTitledBorder(character.getName()));
+	public PlayerPanel(Player player) {
+		setBorder(BorderFactory.createTitledBorder(player.getName()));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0 };
@@ -61,14 +61,14 @@ public class CharacterPanel extends JPanel implements ActionListener,
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
-		lblLevel = new JLabel("Level: " + character.getLevel());
+		lblLevel = new JLabel("Level: " + player.getLevel());
 		GridBagConstraints gbc_lblLevel = new GridBagConstraints();
 		gbc_lblLevel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblLevel.gridx = 0;
 		gbc_lblLevel.gridy = 0;
 		add(lblLevel, gbc_lblLevel);
 
-		lblSpeed = new JLabel("Speed: " + character.getSpeed());
+		lblSpeed = new JLabel("Speed: " + player.getSpeed());
 		GridBagConstraints gbc_lblSpeed = new GridBagConstraints();
 		gbc_lblSpeed.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSpeed.gridx = 1;
@@ -86,7 +86,7 @@ public class CharacterPanel extends JPanel implements ActionListener,
 		lblGold = new JLabel("Gold:");
 		goldPanel.add(lblGold);
 
-		fldGold = new JTextField(String.valueOf(character.getGold()), 6);
+		fldGold = new JTextField(String.valueOf(player.getGold()), 6);
 		fldGold.setHorizontalAlignment(SwingConstants.TRAILING);
 		goldPanel.add(fldGold);
 
@@ -110,11 +110,11 @@ public class CharacterPanel extends JPanel implements ActionListener,
 		lblHp = new JLabel("Hp:");
 		HpPanel.add(lblHp);
 
-		fldHp = new JTextField(String.valueOf(character.getCurrentHP()), 3);
+		fldHp = new JTextField(String.valueOf(player.getCurrentHP()), 3);
 		fldHp.setHorizontalAlignment(SwingConstants.TRAILING);
 		HpPanel.add(fldHp);
 
-		lblMaxHp = new JLabel("/ " + character.getMaxHP());
+		lblMaxHp = new JLabel("/ " + player.getMaxHP());
 		HpPanel.add(lblMaxHp);
 
 		surgesPanel = new JPanel();
@@ -130,11 +130,11 @@ public class CharacterPanel extends JPanel implements ActionListener,
 		surgesPanel.add(lblSurges);
 
 		fldSurges = new JTextField(
-				String.valueOf(character.getCurrentSurges()), 2);
+				String.valueOf(player.getCurrentSurges()), 2);
 		fldSurges.setHorizontalAlignment(SwingConstants.TRAILING);
 		surgesPanel.add(fldSurges);
 
-		lblMaxSurges = new JLabel("/ " + character.getMaxSurges());
+		lblMaxSurges = new JLabel("/ " + player.getMaxSurges());
 		surgesPanel.add(lblMaxSurges);
 
 		panel_1 = new JPanel();
@@ -152,14 +152,14 @@ public class CharacterPanel extends JPanel implements ActionListener,
 		btnHeal = new JButton("Heal");
 		panel_1.add(btnHeal);
 
-		btnEditCharacter = new JButton("Edit Character");
-		GridBagConstraints gbc_btnEditCharacter = new GridBagConstraints();
-		gbc_btnEditCharacter.gridx = 3;
-		gbc_btnEditCharacter.gridy = 1;
-		add(btnEditCharacter, gbc_btnEditCharacter);
+		btnEditplayer = new JButton("Edit player");
+		GridBagConstraints gbc_btnEditplayer = new GridBagConstraints();
+		gbc_btnEditplayer.gridx = 3;
+		gbc_btnEditplayer.gridy = 1;
+		add(btnEditplayer, gbc_btnEditplayer);
 
 		btnAttack.addActionListener(this);
-		btnEditCharacter.addActionListener(this);
+		btnEditplayer.addActionListener(this);
 		btnHeal.addActionListener(this);
 		btnInventory.addActionListener(this);
 		fldHp.addActionListener(this);
@@ -167,19 +167,19 @@ public class CharacterPanel extends JPanel implements ActionListener,
 		fldSurges.addActionListener(this);
 
 		this.addMouseListener(this);
-		this.character = character;
+		this.player = player;
 		setVisible(true);
 	}
 
 	public void updateFields() {
-		this.setBorder(BorderFactory.createTitledBorder(character.getName()));
-		fldHp.setText(String.valueOf(character.getCurrentHP()));
-		fldSurges.setText(String.valueOf(character.getCurrentSurges()));
-		fldGold.setText(String.valueOf(character.getGold()));
-		lblLevel.setText("Level: " + character.getLevel());
-		lblSpeed.setText("Speed: " + character.getSpeed());
-		lblMaxHp.setText("/ " + character.getMaxHP());
-		lblMaxSurges.setText("/ " + character.getMaxSurges());
+		this.setBorder(BorderFactory.createTitledBorder(player.getName()));
+		fldHp.setText(String.valueOf(player.getCurrentHP()));
+		fldSurges.setText(String.valueOf(player.getCurrentSurges()));
+		fldGold.setText(String.valueOf(player.getGold()));
+		lblLevel.setText("Level: " + player.getLevel());
+		lblSpeed.setText("Speed: " + player.getSpeed());
+		lblMaxHp.setText("/ " + player.getMaxHP());
+		lblMaxSurges.setText("/ " + player.getMaxSurges());
 	}
 
 	@Override
@@ -187,8 +187,8 @@ public class CharacterPanel extends JPanel implements ActionListener,
 		if (e.getSource() == btnAttack) {
 			AttackFrame atkFrame = new AttackFrame(this);
 		}
-		else if (e.getSource() == btnEditCharacter) {
-			EditCharacterFrame editCharacterFrame = new EditCharacterFrame(this, character);
+		else if (e.getSource() == btnEditplayer) {
+			EditPlayerFrame editplayerFrame = new EditPlayerFrame(this, player);
 		}
 		else if (e.getSource() == btnHeal) {
 			HealFrame healFrame = new HealFrame(this);
@@ -199,46 +199,46 @@ public class CharacterPanel extends JPanel implements ActionListener,
 		else if (e.getSource() == fldGold) {
 			try {
 				int gold = Integer.parseInt(fldGold.getText());
-				character.setGold(gold);
+				player.setGold(gold);
 			}
 			catch (NumberFormatException err) {
 				JOptionPane.showMessageDialog(null,
 						"Gold field requires an int.", "Error",
 						JOptionPane.ERROR_MESSAGE);
-				fldGold.setText(String.valueOf(character.getGold()));
+				fldGold.setText(String.valueOf(player.getGold()));
 			}
 		}
 		else if (e.getSource() == fldHp) {
 			try {
 				int hP = Integer.parseInt(fldHp.getText());
-				character.setCurrentHP(hP);
+				player.setCurrentHP(hP);
 			}
 			catch (NumberFormatException err) {
 				JOptionPane.showMessageDialog(null,
 						"Hp field requires an int.", "Error",
 						JOptionPane.ERROR_MESSAGE);
-				fldHp.setText(String.valueOf(character.getCurrentHP()));
+				fldHp.setText(String.valueOf(player.getCurrentHP()));
 			}
 		}
 		else if (e.getSource() == fldSurges) {
 			try {
 				int surges = Integer.parseInt(fldSurges.getText());
-				character.setCurrentSurges(surges);
+				player.setCurrentSurges(surges);
 			}
 			catch (NumberFormatException err) {
 				JOptionPane.showMessageDialog(null,
 						"Healing surges field requires an int.", "Error",
 						JOptionPane.ERROR_MESSAGE);
-				fldSurges.setText(String.valueOf(character.getCurrentSurges()));
+				fldSurges.setText(String.valueOf(player.getCurrentSurges()));
 			}
 		}
 	}
 
 	private void displayNotes() {
-		notesFrame = new JFrame("Notes on " + character.getName());
+		notesFrame = new JFrame("Notes on " + player.getName());
 		notesFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		notesDisplay = new JTextArea(5, 20);
-		notesDisplay.setText(character.getNotes());
+		notesDisplay.setText(player.getNotes());
 		notesFrame.add(notesDisplay);
 		notesFrame.pack();
 		notesFrame.setLocationRelativeTo(null);
@@ -286,8 +286,8 @@ public class CharacterPanel extends JPanel implements ActionListener,
 	@Override
 	public void windowClosed(WindowEvent arg0) {
 		if (arg0.getSource() == notesFrame) {
-			character.setNotes(notesDisplay.getText());
-			ManagerFrame.charList.save();
+			player.setNotes(notesDisplay.getText());
+			ManagerFrame.playerList.save();
 		}
 	}
 

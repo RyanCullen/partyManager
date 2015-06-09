@@ -17,7 +17,7 @@ import javax.swing.border.EmptyBorder;
 public class AddItemFrame extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-	private Character currentChar;
+	private Player player;
 	private JLabel lblName;
 	private JTextField fldName;
 	private JLabel lblDesc;
@@ -31,7 +31,7 @@ public class AddItemFrame extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public AddItemFrame(Character character) {
+	public AddItemFrame(Player player) {
 		setTitle("Add Item");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 355, 130);
@@ -116,7 +116,7 @@ public class AddItemFrame extends JFrame implements ActionListener {
 		btnAdd.addActionListener(this);
 		btnCancel.addActionListener(this);
 
-		this.currentChar = character;
+		this.player = player;
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -126,9 +126,9 @@ public class AddItemFrame extends JFrame implements ActionListener {
 		if (e.getSource() == btnAdd) {
 			if (!fldName.getText().isEmpty() && !fldValue.getText().isEmpty()) {
 				try {
-					currentChar.addItem(fldName.getText(), fldDesc.getText(),
+					player.addItem(fldName.getText(), fldDesc.getText(),
 							Integer.parseInt(fldValue.getText()));
-					ManagerFrame.charList.save();
+					ManagerFrame.playerList.save();
 					this.dispose();
 				}
 				catch (NumberFormatException err) {

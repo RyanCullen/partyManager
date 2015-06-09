@@ -29,12 +29,12 @@ public class ManagerFrame extends JFrame implements ActionListener,
 	private JMenuItem loadMenuItem;
 	private JMenuItem exitMenuItem;
 	public static String dataFileName;
-	public static CharacterList charList;
+	public static PlayerList playerList;
 	private JMenuItem newMenuItem;
 	private JMenu partyMenu;
-	private JMenuItem addCharacterMenuItem;
-	private JMenuItem deleteCharacterMenuItem;
-	private static JPanel charPanel;
+	private JMenuItem addPlayerMenuItem;
+	private JMenuItem deletePlayerMenuItem;
+	private static JPanel playerPanel;
 	private static ManagerFrame frame;
 	private JMenuItem startNewEncounterMenuItem;
 
@@ -83,11 +83,11 @@ public class ManagerFrame extends JFrame implements ActionListener,
 		partyMenu = new JMenu("Party");
 		menuBar.add(partyMenu);
 
-		addCharacterMenuItem = new JMenuItem("Add Character");
-		partyMenu.add(addCharacterMenuItem);
+		addPlayerMenuItem = new JMenuItem("Add Player");
+		partyMenu.add(addPlayerMenuItem);
 
-		deleteCharacterMenuItem = new JMenuItem("Delete Character");
-		partyMenu.add(deleteCharacterMenuItem);
+		deletePlayerMenuItem = new JMenuItem("Delete Player");
+		partyMenu.add(deletePlayerMenuItem);
 		partyMenu.setEnabled(false);
 
 		startNewEncounterMenuItem = new JMenuItem("Start New Encounter");
@@ -101,13 +101,13 @@ public class ManagerFrame extends JFrame implements ActionListener,
 		loadMenuItem.addActionListener(this);
 		exitMenuItem.addActionListener(this);
 		newMenuItem.addActionListener(this);
-		addCharacterMenuItem.addActionListener(this);
-		deleteCharacterMenuItem.addActionListener(this);
+		addPlayerMenuItem.addActionListener(this);
+		deletePlayerMenuItem.addActionListener(this);
 		startNewEncounterMenuItem.addActionListener(this);
 
-		charPanel = new JPanel();
-		charPanel.setLayout(new BoxLayout(charPanel, BoxLayout.Y_AXIS));
-		contentPane.add(charPanel, BorderLayout.CENTER);
+		playerPanel = new JPanel();
+		playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
+		contentPane.add(playerPanel, BorderLayout.CENTER);
 		addWindowListener(this);
 	}
 
@@ -122,9 +122,9 @@ public class ManagerFrame extends JFrame implements ActionListener,
 			chooser.setFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
 			if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 				dataFileName = chooser.getSelectedFile().toString();
-				charList = new CharacterList(dataFileName);
+				playerList = new PlayerList(dataFileName);
 				partyMenu.setEnabled(true);
-				drawCharPanels();
+				drawPlayerPanels();
 			}
 		}
 		else if (arg0.getSource() == exitMenuItem) {
@@ -142,9 +142,9 @@ public class ManagerFrame extends JFrame implements ActionListener,
 					File temp = new File(chooser.getSelectedFile() + ".txt");
 					temp.createNewFile();
 					dataFileName = temp.toString();
-					charList = new CharacterList(dataFileName);
+					playerList = new PlayerList(dataFileName);
 					partyMenu.setEnabled(true);
-					drawCharPanels();
+					drawPlayerPanels();
 				}
 				catch (IOException e) {
 					JOptionPane.showMessageDialog(this,
@@ -154,21 +154,21 @@ public class ManagerFrame extends JFrame implements ActionListener,
 				}
 			}
 		}
-		else if (arg0.getSource() == addCharacterMenuItem) {
-			AddCharacterFrame addCharacterFrame = new AddCharacterFrame();
+		else if (arg0.getSource() == addPlayerMenuItem) {
+			AddPlayerFrame addCharacterFrame = new AddPlayerFrame();
 		}
-		else if (arg0.getSource() == deleteCharacterMenuItem) {
-			if (charList.getNumChars() != 0) {
-				Object[] options = new Object[charList.getNumChars()];
+		else if (arg0.getSource() == deletePlayerMenuItem) {
+			if (playerList.getNumPlayers() != 0) {
+				Object[] options = new Object[playerList.getNumPlayers()];
 				int i = 0;
-				for (Character character : charList.getList())
+				for (Character character : playerList.getList())
 					options[i++] = character.toString();
 				String name = (String) JOptionPane.showInputDialog(this,
-						"Choose character to delete.", "Delete Character",
+						"Choose player to delete.", "Delete Player",
 						JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 				if (name != null) {
-					charList.deleteCharacter(name);
-					ManagerFrame.drawCharPanels();
+					playerList.deleteCharacter(name);
+					ManagerFrame.drawPlayerPanels();
 				}
 			}
 			else
@@ -177,7 +177,7 @@ public class ManagerFrame extends JFrame implements ActionListener,
 						JOptionPane.ERROR_MESSAGE);
 		}
 		else if (arg0.getSource() == startNewEncounterMenuItem) {
-			if (charList.getNumChars() > 0) { 
+			if (playerList.getNumPlayers() > 0) { 
 				CreateEncounterFrame createEncounterFrame = new CreateEncounterFrame();
 			}
 			else
@@ -185,10 +185,10 @@ public class ManagerFrame extends JFrame implements ActionListener,
 		}
 	}
 
-	public static void drawCharPanels() {
-		charPanel.removeAll();
-		for (Character character : charList.getList()) {
-			charPanel.add(new CharacterPanel(character));
+	public static void drawPlayerPanels() {
+		playerPanel.removeAll();
+		for (Player player : playerList.getList()) {
+			playerPanel.add(new PlayerPanel(player));
 		}
 		frame.pack();
 	}
@@ -200,15 +200,15 @@ public class ManagerFrame extends JFrame implements ActionListener,
 
 	@Override
 	public void windowClosed(WindowEvent arg0) {
-		if (charList != null) {
-			charList.save();
+		if (playerList != null) {
+			playerList.save();
 		}
 	}
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		if (charList != null) {
-			charList.save();
+		if (playerList != null) {
+			playerList.save();
 		}
 	}
 

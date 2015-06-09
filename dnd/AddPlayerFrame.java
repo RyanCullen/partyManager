@@ -17,12 +17,12 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-public class AddCharacterFrame {
+public class AddPlayerFrame {
 
 	protected JFrame frame;
-	protected CharacterList charList = ManagerFrame.charList;
+	protected PlayerList playerList = ManagerFrame.playerList;
 	protected boolean editting = false;
-	protected Character character;
+	protected Player player;
 	private JLabel lblName;
 	private JLabel lblHitpoints;
 	private JLabel lblArmorClass;
@@ -47,8 +47,8 @@ public class AddCharacterFrame {
 	protected JButton btnAdd;
 	protected JButton btnCancel;
 
-	public AddCharacterFrame() {
-		frame = new JFrame("New Character");
+	public AddPlayerFrame() {
+		frame = new JFrame("New Player");
 		JPanel contentPane = new JPanel();
 		frame.setContentPane(contentPane);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -235,8 +235,8 @@ public class AddCharacterFrame {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (verifyFields()) {
-					addCharacter();
-					ManagerFrame.drawCharPanels();
+					addPlayer();
+					ManagerFrame.drawPlayerPanels();
 					frame.dispose();
 				}
 			}
@@ -258,15 +258,15 @@ public class AddCharacterFrame {
 		frame.setVisible(true);
 	}
 
-	public void addCharacter() {
-		charList.addCharacter(new Character(fldName.getText(), Integer
+	public void addPlayer() {
+		playerList.addPlayer(new Player(fldName.getText(), Integer
 				.parseInt(fldExp.getText()), Integer.parseInt(fldHp.getText()),
 				Integer.parseInt(fldSurges.getText()), Integer.parseInt(fldAc
 						.getText()), Integer.parseInt(fldFort.getText()),
 				Integer.parseInt(fldReflex.getText()), Integer.parseInt(fldWill
 						.getText()), Integer.parseInt(fldSpeed.getText()),
 				Integer.parseInt(fldGold.getText())));
-		charList.save();
+		playerList.save();
 	}
 
 	public boolean verifyFields() {
@@ -274,15 +274,15 @@ public class AddCharacterFrame {
 		if (fldName.getText().isEmpty())
 			errorString += "Name is a required field.\n";
 		else if (editting) {
-			if (!fldName.getText().equals(character.getName())
-					&& charList.takenNames.contains(fldName.getText())) {
+			if (!fldName.getText().equals(player.getName())
+					&& playerList.takenNames.contains(fldName.getText())) {
 				System.out.println(fldName.getText() + " = "
-						+ character.getName());
+						+ player.getName());
 				errorString += "Name " + fldName.getText()
 						+ " is already taken.\n";
 			}
 		}
-		else if (charList.takenNames.contains(fldName.getText()))
+		else if (playerList.takenNames.contains(fldName.getText()))
 			errorString += "Name " + fldName.getText() + " is already taken.\n";
 		try {
 			Integer.parseInt(fldExp.getText());
