@@ -50,7 +50,7 @@ public class CreateEncounterFrame {
 		JButton btnAddNpc = new JButton("Add NPC");
 		btnAddNpc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AddNpcFrame addNpcFrame = new AddNpcFrame(thisObj);
+				new AddNpcFrame(thisObj);
 			}
 		});
 		btnPanel.add(btnAddNpc);
@@ -155,6 +155,8 @@ public class CreateEncounterFrame {
 					for (NPC npc : npcList) {
 						npc.setInitiative(Integer.parseInt(fldList.get(i++).getText()));
 					}
+					frame.dispose();
+					new EncounterFrame(ManagerFrame.playerList.getList(), npcList);
 				}
 				else
 					JOptionPane.showMessageDialog(frame, "Enter all initiative rolls.", "Error", JOptionPane.ERROR_MESSAGE);
