@@ -1,8 +1,7 @@
 package dnd;
 
-import java.util.ArrayList;
 
-public abstract class Character implements Comparable {
+public abstract class Character implements Comparable<Character> {
 	protected int maxHP, currentHP, ac, fort, ref, will, speed,
 			initiative;
 	protected String name, notes;
@@ -23,6 +22,8 @@ public abstract class Character implements Comparable {
 	}
 
 	protected abstract char getType();
+	
+	protected abstract int getLevel();
 	
 	public void changeHP(int change) {
 		this.currentHP += change;
@@ -113,7 +114,7 @@ public abstract class Character implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object compareChar) {
-		return ((Character)compareChar).getInitiative() - this.initiative;
+	public int compareTo(Character compareChar) {
+		return compareChar.getInitiative() - this.initiative;
 	}
 }

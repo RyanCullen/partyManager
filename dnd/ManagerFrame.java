@@ -17,9 +17,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+@SuppressWarnings("serial")
 public class ManagerFrame extends JFrame implements ActionListener,
 		WindowListener {
 
@@ -60,7 +62,7 @@ public class ManagerFrame extends JFrame implements ActionListener,
 	 */
 	public ManagerFrame() {
 		setTitle("D&D Party Manager");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		setResizable(false);
 
@@ -128,7 +130,14 @@ public class ManagerFrame extends JFrame implements ActionListener,
 			}
 		}
 		else if (arg0.getSource() == exitMenuItem) {
-			this.dispose();
+			if (JOptionPane.showConfirmDialog(null, "Exit?", "Confirm",
+					JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+				if (playerList != null) {
+					playerList.save();
+				}
+				this.dispose();
+			}
+
 		}
 		else if (arg0.getSource() == newMenuItem) {
 			JFileChooser chooser = new JFileChooser();
@@ -155,7 +164,7 @@ public class ManagerFrame extends JFrame implements ActionListener,
 			}
 		}
 		else if (arg0.getSource() == addPlayerMenuItem) {
-			AddPlayerFrame addCharacterFrame = new AddPlayerFrame();
+			new AddPlayerFrame();
 		}
 		else if (arg0.getSource() == deletePlayerMenuItem) {
 			if (playerList.getNumPlayers() != 0) {
@@ -177,11 +186,15 @@ public class ManagerFrame extends JFrame implements ActionListener,
 						JOptionPane.ERROR_MESSAGE);
 		}
 		else if (arg0.getSource() == startNewEncounterMenuItem) {
-			if (playerList.getNumPlayers() > 0) { 
-				CreateEncounterFrame createEncounterFrame = new CreateEncounterFrame();
+			if (playerList.getNumPlayers() > 0) {
+				new CreateEncounterFrame();
 			}
 			else
-				JOptionPane.showMessageDialog(frame, "Party must have at least one member to initiate encounters.", "Error", JOptionPane.ERROR_MESSAGE);				
+				JOptionPane
+						.showMessageDialog(
+								frame,
+								"Party must have at least one member to initiate encounters.",
+								"Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -200,15 +213,17 @@ public class ManagerFrame extends JFrame implements ActionListener,
 
 	@Override
 	public void windowClosed(WindowEvent arg0) {
-		if (playerList != null) {
-			playerList.save();
-		}
+
 	}
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		if (playerList != null) {
-			playerList.save();
+		if (JOptionPane.showConfirmDialog(null, "Exit?", "Confirm",
+				JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+			if (playerList != null) {
+				playerList.save();
+			}
+			System.exit(0);
 		}
 	}
 
