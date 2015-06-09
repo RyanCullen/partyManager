@@ -2,11 +2,10 @@ package dnd;
 
 import java.util.ArrayList;
 
-public class Character {
+public class Character implements Comparable {
 	protected int level, maxHP, currentHP, ac, fort, ref, will, speed, exp, gold,
 			initiative, maxSurges, currentSurges;
 	protected String name, notes;
-	protected char type;
 	protected ArrayList<Item> items = new ArrayList<Item>();
 	protected static final int[] EXP_TABLE = { Integer.MIN_VALUE, 0, 1000, 2250, 3750, 5500,
 			7500, 10000, 13000, 16500, 20500, 26000, 32000, 39000, 47000,
@@ -31,7 +30,6 @@ public class Character {
 		this.speed = speed;
 		this.gold = gold;
 		this.notes = "";
-		this.type = 'P';
 	}
 
 	// Constructor for loading a character
@@ -53,7 +51,6 @@ public class Character {
 		this.notes = notes;
 		loadItems(itemString);
 		this.gold = gold;
-		this.type = 'P';
 	}
 
 	private int calculateLevel() {
@@ -246,5 +243,10 @@ public class Character {
 
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public int compareTo(Object compareChar) {
+		return ((Character)compareChar).getInitiative() - this.initiative;
 	}
 }

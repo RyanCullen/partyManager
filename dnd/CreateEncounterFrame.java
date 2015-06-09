@@ -12,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
@@ -111,7 +112,8 @@ public class CreateEncounterFrame {
 	}
 
 	private void drawInitiativesPanel() {
-		initiativesPanel.setLayout(new BoxLayout(initiativesPanel, BoxLayout.Y_AXIS));
+		initiativesPanel.setLayout(new BoxLayout(initiativesPanel,
+				BoxLayout.Y_AXIS));
 		JPanel playerInitPanel = new JPanel();
 		playerInitPanel.setBorder(BorderFactory.createTitledBorder("Players"));
 		playerInitPanel.setLayout(new GridBagLayout());
@@ -145,14 +147,24 @@ public class CreateEncounterFrame {
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO
+				if (verifyFields()) {
+					int i = 0;
+					for (Character character : ManagerFrame.charList.getList()) {
+						character.setInitiative(Integer.parseInt(fldList.get(i++).getText()));
+					}
+					for (NPC npc : npcList) {
+						npc.setInitiative(Integer.parseInt(fldList.get(i++).getText()));
+					}
+				}
+				else
+					JOptionPane.showMessageDialog(frame, "Enter all initiative rolls.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		btnPanel.add(btnStart);
 		btnPanel.add(btnCancel);
 		initiativesPanel.add(btnPanel);
 	}
-	
+
 	private boolean verifyFields() {
 		boolean valid = true;
 		for (JTextField field : fldList) {

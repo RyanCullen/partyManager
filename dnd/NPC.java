@@ -1,6 +1,6 @@
 package dnd;
 
-public class NPC {
+public class NPC implements Comparable {
 	
 	private int reward, level, maxHP, currentHP, ac, fort, ref, will, speed, initiative;
 
@@ -114,6 +114,11 @@ public class NPC {
 
 	public void setReward(int reward) {
 		this.reward = reward;
+	}
+
+	@Override
+	public int compareTo(Object compareNpc) {
+		return ((NPC)compareNpc).getInitiative() - this.initiative;
 	}
 	
 }
