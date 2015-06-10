@@ -5,7 +5,7 @@ Goal: Just practicing my Java
 Simple party stat tracking app for D&D 4th ed.
 
 Eventually I want to include:  
--Exp and loot distribution  
+-Loot distribution  
 -Item stats  
 -Player spell usage tracking (my friends cheat a lot)  
 
