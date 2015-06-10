@@ -64,7 +64,7 @@ public class EncounterPanel implements Comparable<EncounterPanel> {
 		btnAttack = new JButton("Attack");
 		btnAttack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AttackFrame attackFrame = new AttackFrame(thisObj);
+				new AttackFrame(thisObj);
 			}
 		});
 		GridBagConstraints gbc_btnAttack = new GridBagConstraints();
@@ -89,7 +89,7 @@ public class EncounterPanel implements Comparable<EncounterPanel> {
 		btnHeal = new JButton("Heal");
 		btnHeal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				HealFrame healFrame = new HealFrame(thisObj);
+				new HealFrame(thisObj);
 			}
 		});
 		GridBagConstraints gbc_btnHeal = new GridBagConstraints();

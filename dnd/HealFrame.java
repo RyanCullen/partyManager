@@ -94,7 +94,7 @@ public class HealFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (verifyFields()) {
 					character.changeHP(Integer.parseInt(fldHeal.getText()));
-					if (character.type == 'P') 
+					if (character.type == 'P')
 						((Player) character).changeSurges(-Integer
 								.parseInt(fldSurges.getText()));
 					parent.updateFields();

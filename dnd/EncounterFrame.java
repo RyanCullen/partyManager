@@ -91,7 +91,7 @@ public class EncounterFrame implements WindowListener, ActionListener {
 		}
 		contentPane.add(mainPanel);
 	}
-	
+
 	private void nextTurn() {
 		panelOrder.get(turnIndex).getPanel().setBackground(defaultColor);
 		if (turnIndex == panelOrder.size() - 1) {
@@ -99,29 +99,49 @@ public class EncounterFrame implements WindowListener, ActionListener {
 			lblRound.setText("Round: " + ++round);
 		}
 		turnIndex++;
-		if (panelOrder.get(turnIndex).getCharacter().getCurrentHP() <= 0 && panelOrder.get(turnIndex).getCharacter().getType() == 'N') {
+		if (panelOrder.get(turnIndex).getCharacter().getCurrentHP() <= 0
+				&& panelOrder.get(turnIndex).getCharacter().getType() == 'N') {
 			nextTurn();
 			return;
 		}
 		panelOrder.get(turnIndex).getPanel().setBackground(Color.LIGHT_GRAY);
-			
+	}
+
+	private int calcExp() {
+		int totalReward = 0;
+		for (NPC npc : npcList) {
+			if (npc.getCurrentHP() <= 0)
+				totalReward += npc.getReward();
+		}
+		return totalReward / playerList.size();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnExit) {
-			if (JOptionPane.showConfirmDialog(frmEncounter, "Exit encounter?",
-					"Confirm", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-				frmEncounter.dispose();
-				ManagerFrame.drawPlayerPanels();
-			}
-			else
-				return;
+			exit();
 		}
 		else if (e.getSource() == btnNext) {
 			nextTurn();
 		}
 
+	}
+
+	private void exit() {
+		if (JOptionPane.showConfirmDialog(frmEncounter, "Exit encounter?",
+				"Confirm", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+			int reward = calcExp();
+			if (JOptionPane.showConfirmDialog(frmEncounter,
+					"Award " + String.valueOf(reward) + " exp to each player?",
+					"Distribute Exp?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				for (Player player : playerList)
+					player.changeExp(reward);
+			}
+			frmEncounter.dispose();
+			ManagerFrame.drawPlayerPanels();
+		}
+		else
+			return;
 	}
 
 	@Override
@@ -138,13 +158,7 @@ public class EncounterFrame implements WindowListener, ActionListener {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		if (JOptionPane.showConfirmDialog(frmEncounter, "Exit encounter?",
-				"Confirm", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-			frmEncounter.dispose();
-			ManagerFrame.drawPlayerPanels();
-		}
-		else
-			return;
+		exit();
 	}
 
 	@Override

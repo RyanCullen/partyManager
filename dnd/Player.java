@@ -2,6 +2,8 @@ package dnd;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Player extends Character {
 	private int exp, gold, maxSurges, currentSurges;
 	private ArrayList<Item> items = new ArrayList<Item>();
@@ -17,7 +19,7 @@ public class Player extends Character {
 		super(name, hp, ac, fort, ref, will, speed);
 		this.exp = exp;
 		this.maxSurges = surges;
-		this.currentSurges = surges;		
+		this.currentSurges = surges;
 		this.gold = gold;
 		this.type = 'P';
 	}
@@ -76,7 +78,12 @@ public class Player extends Character {
 	}
 
 	public void changeExp(int exp) {
+		int currLvl = getLevel();
 		this.exp += exp;
+		if (currLvl != getLevel())
+			JOptionPane.showMessageDialog(null, this.name + " hit level "
+					+ String.valueOf(getLevel()) + "!", "Level get!",
+					JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public int getMaxSurges() {

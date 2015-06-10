@@ -150,16 +150,21 @@ public class CreateEncounterFrame {
 				if (verifyFields()) {
 					int i = 0;
 					for (Player player : ManagerFrame.playerList.getList()) {
-						player.setInitiative(Integer.parseInt(fldList.get(i++).getText()));
+						player.setInitiative(Integer.parseInt(fldList.get(i++)
+								.getText()));
 					}
 					for (NPC npc : npcList) {
-						npc.setInitiative(Integer.parseInt(fldList.get(i++).getText()));
+						npc.setInitiative(Integer.parseInt(fldList.get(i++)
+								.getText()));
 					}
 					frame.dispose();
-					new EncounterFrame(ManagerFrame.playerList.getList(), npcList);
+					new EncounterFrame(ManagerFrame.playerList.getList(),
+							npcList);
 				}
 				else
-					JOptionPane.showMessageDialog(frame, "Enter all initiative rolls.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(frame,
+							"Enter all initiative rolls.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		btnPanel.add(btnStart);
