@@ -91,6 +91,21 @@ public class EncounterFrame implements WindowListener, ActionListener {
 		}
 		contentPane.add(mainPanel);
 	}
+	
+	private void nextTurn() {
+		panelOrder.get(turnIndex).getPanel().setBackground(defaultColor);
+		if (turnIndex == panelOrder.size() - 1) {
+			turnIndex = -1;
+			lblRound.setText("Round: " + ++round);
+		}
+		turnIndex++;
+		if (panelOrder.get(turnIndex).getCharacter().getCurrentHP() <= 0 && panelOrder.get(turnIndex).getCharacter().getType() == 'N') {
+			nextTurn();
+			return;
+		}
+		panelOrder.get(turnIndex).getPanel().setBackground(Color.LIGHT_GRAY);
+			
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -104,7 +119,7 @@ public class EncounterFrame implements WindowListener, ActionListener {
 				return;
 		}
 		else if (e.getSource() == btnNext) {
-
+			nextTurn();
 		}
 
 	}

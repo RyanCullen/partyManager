@@ -42,14 +42,14 @@ public class EncounterPanel implements Comparable<EncounterPanel> {
 				Double.MIN_VALUE };
 		gbl_panel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
-		
-				lblLvl = new JLabel("Lvl: " + String.valueOf(character.getLevel()));
-				GridBagConstraints gbc_lblLvl = new GridBagConstraints();
-				gbc_lblLvl.anchor = GridBagConstraints.WEST;
-				gbc_lblLvl.insets = new Insets(0, 0, 5, 5);
-				gbc_lblLvl.gridx = 0;
-				gbc_lblLvl.gridy = 0;
-				panel.add(lblLvl, gbc_lblLvl);
+
+		lblLvl = new JLabel("Lvl: " + String.valueOf(character.getLevel()));
+		GridBagConstraints gbc_lblLvl = new GridBagConstraints();
+		gbc_lblLvl.anchor = GridBagConstraints.WEST;
+		gbc_lblLvl.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLvl.gridx = 0;
+		gbc_lblLvl.gridy = 0;
+		panel.add(lblLvl, gbc_lblLvl);
 
 		lblHp = new JLabel("Hp: "
 				+ String.valueOf(character.getCurrentHP() + " / "
@@ -117,8 +117,9 @@ public class EncounterPanel implements Comparable<EncounterPanel> {
 
 			public void mouseReleased(MouseEvent arg0) {
 			}
-			
-		});;
+
+		});
+		;
 	}
 
 	public JPanel getPanel() {
@@ -126,7 +127,12 @@ public class EncounterPanel implements Comparable<EncounterPanel> {
 	}
 
 	public void updateFields() {
-
+		lblHp.setText("Hp: "
+				+ String.valueOf(character.getCurrentHP() + " / "
+						+ String.valueOf(character.getMaxHP())));
+		if (character.getType() == 'P')
+			lblSurges.setText("Surges: "
+					+ ((Player) character).getCurrentSurges());
 	}
 
 	public Character getCharacter() {
